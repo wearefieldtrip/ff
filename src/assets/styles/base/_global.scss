@@ -1,0 +1,38 @@
+@use "./variables" as *;
+@use "typography" as *;
+
+// Form Elements
+.form-field {
+  label {
+    display: block;
+    @include x-large;
+    margin-bottom: 12px;
+  }
+
+  input[type="text"] {
+    border-radius: 30px;
+    background-color: $color-white;
+    color: $color-navy;
+    font-size: 1.125em;
+    padding: 12px 32px;
+  }
+}
+
+// Buttons
+.btn-white-pill {
+  border-radius: 30px;
+  font-size: 0.875em;
+  background-color: $color-white;
+  color: $color-navy;
+  font-weight: $fw-medium;
+  min-width: 210px;
+  display: inline-flex;
+  justify-content: center;
+  padding: 24px;
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: #cdd6ed;
+  }
+}

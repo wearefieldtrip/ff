@@ -1,0 +1,121 @@
+@use "./variables" as *;
+
+// Box Sizing
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+// Reset Margins & Padding
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+figure,
+blockquote,
+dl,
+dd,
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+}
+
+// Remove List Styles
+ul,
+ol {
+  list-style: none;
+}
+
+// Remove Default Button & Input Styles
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  margin: 0;
+  border: none;
+  background: none;
+  outline: none;
+}
+
+// Improve Typography Readability
+body {
+  font-family: "Schibsted Grotesk", serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: $color-white;
+  background-color: $color-navy;
+  text-rendering: optimizeSpeed;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Improve Focus Visibility (For Accessibility)
+a, button, input, textarea, select {
+  &:focus-visible {
+    outline: 2px solid $primary;
+    outline-offset: 2px;
+  }
+} */
+
+// Reset Anchor Tags
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.2s ease-in-out;
+}
+
+// Remove Tap Highlight on Mobile
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+// Make Images Responsive
+img,
+video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+// Remove Table Spacing
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+}
+
+// Prevent Text Selection on Certain Elements
+button,
+a,
+input[type="button"],
+input[type="submit"] {
+  user-select: none;
+  cursor: pointer;
+}
+
+// Remove Default Input Styles on Webkit
+input,
+textarea {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+// Smooth Scrolling
+html {
+  scroll-behavior: smooth;
+}
+
+// Hidden Class
+.hidden {
+  display: none !important;
+  visibility: hidden;
+}
