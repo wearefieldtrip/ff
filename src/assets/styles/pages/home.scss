@@ -1,0 +1,109 @@
+.page-home {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .logo {
+    img {
+      padding: 20px;
+      margin: auto;
+      width: 150px;
+      box-sizing: content-box;
+    }
+  }
+
+  .col-group {
+    border-top: 2px solid $color-white;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    @include breakpoint(tablet) {
+      flex-direction: row;
+    }
+
+    .col-left {
+      border-bottom: 2px solid $color-white;
+      flex: 1;
+
+      @include breakpoint(tablet) {
+        flex: 2;
+        border-bottom: 0;
+        display: flex;
+        flex-direction: column;
+      }
+
+      h1 {
+        padding: 24px;
+
+        @include breakpoint(tablet) {
+          display: flex;
+          flex: 1;
+          align-items: center;
+          border-bottom: 2px solid $color-white;
+          align-items: center;
+          padding: 52px;
+        }
+      }
+
+      .hero-image {
+        display: none;
+
+        @include breakpoint(tablet) {
+          display: inline-flex;
+          max-height: 43vh;
+          object-fit: cover;
+          width: 100%;
+          height: 100%;
+          margin-top: auto;
+        }
+      }
+    }
+
+    .col-right {
+      padding: 20px;
+      display: flex;
+
+      @include breakpoint(tablet) {
+        flex: 1;
+        display: flex;
+        border-left: 2px solid $color-white;
+        flex-direction: column;
+        padding: 0;
+      }
+
+      .ff-logo {
+        display: none;
+
+        @include breakpoint(tablet) {
+          display: flex;
+          padding: 40px 54px;
+        }
+      }
+
+      .group {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+
+        @include breakpoint(tablet) {
+          flex: 2;
+          border-top: 2px solid $color-white;
+          padding: 46px;
+          align-items: end;
+        }
+
+        svg {
+          width: 40px;
+          margin-left: 20px;
+          flex-shrink: 0;
+
+          @include breakpoint(tablet) {
+            width: 60px;
+          }
+        }
+      }
+    }
+  }
+}

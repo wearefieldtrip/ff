@@ -1,12 +1,8 @@
-// Import Base Styles
-@use "base/reset";
-@use "base/variables";
-@use "base/mixins";
-@use "base/typography";
-@use "base/global";
+@import "reset";
+@import "variables";
+@import "mixins";
+@import "typography";
+@import "layout";
+@import "components";
 
-// Import Components
-
-// Import Pages
-
-// Import Utilities
+@import "pages/home.scss";
