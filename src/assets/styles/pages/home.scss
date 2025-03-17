@@ -9,6 +9,12 @@
       margin: auto;
       width: 150px;
       box-sizing: content-box;
+
+      @include breakpoint(tablet) {
+        width: 200px;
+        margin: 0;
+        border-right: 2px solid $color-white;
+      }
     }
   }
 
