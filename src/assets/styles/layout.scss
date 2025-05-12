@@ -1,0 +1,8 @@
+.content-wrapper {
+  width: 90%;
+  margin: auto;
+
+  &.small {
+    max-width: 800px;
+  }
+}

@@ -38,6 +38,11 @@
 }
 
 // Buttons
+.button-group {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+}
 .btn-white-pill {
   border-radius: 30px;
   font-size: 0.875em;
@@ -53,5 +58,37 @@
   &:focus,
   &:active {
     background-color: #cdd6ed;
+  }
+}
+
+.dir-button {
+  border: 2px solid $color-white;
+  display: inline-flex;
+  border-radius: 30px;
+  padding: 0 17px;
+  height: 60px;
+  align-items: center;
+
+  &.text {
+    padding: 0px 20px;
+    gap: 12px;
+
+    span {
+      font-size: 26px;
+    }
+  }
+
+  &.right {
+    flex-direction: row-reverse;
+
+    img {
+      transform: rotate(180deg);
+    }
+  }
+
+  img {
+    width: 24px;
+    flex-shrink: 0;
+    align-self: center;
   }
 }

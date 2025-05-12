@@ -1,0 +1,16 @@
+@import "../variables.scss";
+
+.bubble-btn {
+  font-size: 16px;
+  background-color: $color-white;
+  border-radius: 30px;
+  font-weight: $fw-bold;
+  width: 250px;
+  height: 80px;
+  padding: 16px;
+
+  &:hover,
+  &.active {
+    background-color: $color-light-navy;
+  }
+}
