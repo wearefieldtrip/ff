@@ -1,0 +1,30 @@
+.app-container {
+  width: calc(100vw - 48px);
+  height: calc(100vh - 48px);
+  overflow-y: scroll;
+  margin: 24px;
+  display: flex;
+  border: 2px solid $color-white;
+  position: relative;
+
+  @include breakpoint(tablet) {
+    width: calc(100vw - 56px);
+    height: calc(100vh - 56px);
+    margin: 28px;
+  }
+
+  @include breakpoint(desktop) {
+    width: calc(100vw - 64px);
+    height: calc(100vh - 64px);
+    margin: 32px;
+  }
+}
+
+.content-wrapper {
+  width: 90%;
+  margin: auto;
+
+  &.small {
+    max-width: 800px;
+  }
+}

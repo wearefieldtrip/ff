@@ -1,7 +1,7 @@
 import SchoolSelect from "../components/forms/SchoolSelect";
-import PageHeader from "../components/layouts/PageHeader";
+import PageHeader from "../layouts/PageHeader";
 import BubbleBtn from "../components/ui/BubbleBtn";
-import arrow from "../assets/images/dir-btn-arrow.svg";
+import arrow from "../assets/images/icons/dir-btn-arrow.svg";
 
 function Basics() {
   return (

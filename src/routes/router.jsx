@@ -6,8 +6,8 @@ import Outcomes from "../pages/Outcomes";
 import Results from "../pages/Results";
 import SingleProgram from "../pages/SingleProgram";
 import NotFound from "../pages/NotFound";
-import HomeLayout from "../components/layouts/HomeLayout";
-import DefaultLaout from "../components/layouts/DefaultLayout";
+import HomeLayout from "../layouts/HomeLayout";
+import DefaultLaout from "../layouts/DefaultLayout";
 
 const AppRouter = () => {
   return (

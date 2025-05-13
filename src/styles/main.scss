@@ -1,0 +1,21 @@
+// abstract
+@import "./abstracts/variables";
+@import "./abstracts/mixins";
+
+// base
+@import "./base/reset";
+@import "./base/typography";
+
+//layout
+@import "./layout/layout";
+@import "./layout/page-header";
+
+//components
+@import "components";
+@import "./components/bubble-btn";
+@import "./components/school-select";
+@import "./components/nav-bar";
+
+// pages
+@import "./pages/home.scss";
+@import "./pages/basics.scss";

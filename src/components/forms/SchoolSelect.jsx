@@ -1,5 +1,3 @@
-import "../../assets/styles/components/_schoolSelect.scss";
-
 function SchoolSelect({ level, selectedSchool, onChange }) {
   return (
     <div className='school-select'>
@@ -19,7 +17,7 @@ function SchoolSelect({ level, selectedSchool, onChange }) {
           target='_blank'>
           this tool
         </a>{" "}
-        to find out. 
+        to find out.
       </p>
     </div>
   );

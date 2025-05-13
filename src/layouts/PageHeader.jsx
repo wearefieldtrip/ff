@@ -1,5 +1,3 @@
-import "../../assets/styles/components/_pageHeader.scss";
-
 function PageHeader({ title, subtitle }) {
   return (
     <div className='page-header'>

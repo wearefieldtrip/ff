@@ -1,11 +1,11 @@
 import { Outlet } from "react-router-dom";
+import NavBar from "../components/ui/NavBar";
 
 const DefaultLayout = () => {
   return (
     <div className='app-container'>
-      <main className='stage'>
-        <Outlet />
-      </main>
+      <Outlet />
+      <NavBar />
     </div>
   );
 };
