@@ -1,27 +1,71 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Outlet,
+} from "react-router-dom";
 import Home from "../pages/Home";
 import Basics from "../pages/Basics";
-import Review from "../pages/Review";
+import Interests from "../pages/Interests";
 import Outcomes from "../pages/Outcomes";
 import Results from "../pages/Results";
 import SingleProgram from "../pages/SingleProgram";
 import NotFound from "../pages/NotFound";
-import HomeLayout from "../layouts/HomeLayout";
-import DefaultLaout from "../layouts/DefaultLayout";
+import { PageProvider } from "../context/PageContext";
+import { UserFlowProvider } from "../context/UserFlowContext";
+import NavBar from "../components/ui/NavBar";
+import RequireSchool from "../components/guards/RequireSchool";
 
 const AppRouter = () => {
+  const AppLayout = () => (
+    <PageProvider>
+      <UserFlowProvider>
+        <div className='app-container'>
+          <Outlet />
+          <NavBar />
+        </div>
+      </UserFlowProvider>
+    </PageProvider>
+  );
+
   return (
     <Router>
       <Routes>
-        <Route element={<HomeLayout />}>
+        <Route element={<AppLayout />}>
           <Route path='/' element={<Home />} />
-        </Route>
-        <Route element={<DefaultLaout />}>
           <Route path='/basics' element={<Basics />} />
-          <Route path='/review' element={<Review />} />
-          <Route path='/outcomes' element={<Outcomes />} />
-          <Route path='/results' element={<Results />} />
-          <Route path='/single-program' element={<SingleProgram />} />
+          <Route
+            path='/interests'
+            element={
+              <RequireSchool>
+                <Interests />
+              </RequireSchool>
+            }
+          />
+          <Route
+            path='/outcomes'
+            element={
+              <RequireSchool>
+                <Outcomes />
+              </RequireSchool>
+            }
+          />
+          <Route
+            path='/results'
+            element={
+              <RequireSchool>
+                <Results />
+              </RequireSchool>
+            }
+          />
+          <Route
+            path='/single-program'
+            element={
+              <RequireSchool>
+                <SingleProgram />
+              </RequireSchool>
+            }
+          />
           <Route path='*' element={<NotFound />} />
         </Route>
       </Routes>

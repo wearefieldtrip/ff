@@ -3,12 +3,39 @@
   background-color: $color-white;
   border-radius: 30px;
   font-weight: $fw-bold;
-  width: 250px;
-  height: 80px;
-  padding: 16px;
+  width: 100%;
+  min-height: 60px;
+  padding: 12px;
+  flex-grow: 0 !important;
+  color: $color-navy;
+  transition: 0.25s ease-in-out all;
 
-  &:hover,
+  @include breakpoint(tablet) {
+    flex: 1 1 calc(25% - 1.5rem);
+    min-height: 80px;
+    padding: 16px;
+  }
+
+  &.large {
+    flex: 1 1 calc(33.33% - 1.5rem);
+    padding: 48px 32px;
+    font-size: 24px;
+    font-weight: $fw-medium;
+  }
+
+  &:hover:not(.disabled),
   &.active {
     background-color: $color-light-navy;
+  }
+
+  &.disabled {
+    opacity: 0.25;
+    cursor: not-allowed;
+  }
+
+  span {
+    font-weight: $fw-regular;
+    display: block;
+    font-size: 14px;
   }
 }

@@ -18,13 +18,22 @@
     height: calc(100vh - 64px);
     margin: 32px;
   }
-}
 
-.content-wrapper {
-  width: 90%;
-  margin: auto;
+  .page {
+    width: 100%;
+  }
 
-  &.small {
-    max-width: 800px;
+  .content-wrapper {
+    width: 90%;
+    margin: auto;
+    padding-bottom: 80px;
+
+    &.small {
+      max-width: 800px;
+    }
+
+    &.large {
+      max-width: 1080px;
+    }
   }
 }

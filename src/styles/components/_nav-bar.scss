@@ -36,6 +36,35 @@
       font-size: 20px;
       font-weight: $fw-semi-bold;
       color: $color-navy;
+
+      &.nav-button {
+        &:disabled {
+          opacity: 0.5;
+          cursor: default;
+        }
+
+        &.active {
+          animation: bounceRight 2.5s ease-in-out infinite;
+
+          @keyframes bounceRight {
+            0% {
+              transform: translateX(-8px);
+            }
+            25% {
+              transform: translateX(0px);
+            }
+            50% {
+              transform: translateX(-8px);
+            }
+            75% {
+              transform: translateX(0px);
+            }
+            100% {
+              transform: translateX(-8px);
+            }
+          }
+        }
+      }
     }
   }
 }

@@ -1,8 +1,22 @@
-function SchoolSelect({ level, selectedSchool, onChange }) {
+import { useUserFlow } from "../../context/UserFlowContext";
+
+function SchoolSelect() {
+  const { userFlow, setUserFlow } = useUserFlow();
+  const selectedSchool = userFlow.homeSchool;
+
+  const handleSelect = (event) => {
+    const school = event.target.value;
+
+    setUserFlow((prev) => ({
+      ...prev,
+      homeSchool: school,
+    }));
+  };
+
   return (
     <div className='school-select'>
-      <label htmlFor='school'>Select your neighborhood high school</label>
-      <select id='school' value={selectedSchool} onChange={onChange}>
+      <label htmlFor='school'>Select your school:</label>
+      <select id='school' value={selectedSchool || ""} onChange={handleSelect}>
         <option value=''>Select a school</option>
         <option>Bryan Station High School</option>
         <option>Frederick Douglas High School</option>

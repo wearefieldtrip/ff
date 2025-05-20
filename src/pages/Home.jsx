@@ -2,14 +2,25 @@ import fcpsLogo from "../assets/images/fcps-logo.svg";
 import homeHero from "../assets/images/home-hero.jpeg";
 import ffLogo from "../assets/images/fayette-forward-logo.svg";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { usePage } from "../context/PageContext";
 
 function Home() {
+  const { setPageMeta } = usePage();
+
+  useEffect(() => {
+    setPageMeta({ hideComponent: true });
+  }, []);
+
   return (
     <div className='page-home'>
-      <div className='logo'>
-        <img src={fcpsLogo} alt='FCPS Logo' />
+      <div className='col-group-1'>
+        <div className='logo'>
+          <img src={fcpsLogo} alt='FCPS Logo' />
+        </div>
+        <div className='translate'>(Translate)</div>
       </div>
-      <div className='col-group'>
+      <div className='col-group-2'>
         <div className='col col-left'>
           <h1 className='large-heading-one'>
             Fayette Forward offers learning options where students choose their

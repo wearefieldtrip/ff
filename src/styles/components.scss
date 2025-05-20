@@ -18,8 +18,13 @@
 // Buttons
 .button-group {
   display: flex;
-  gap: 24px;
+  flex-wrap: wrap;
+  gap: 1.5rem;
   justify-content: center;
+
+  @include breakpoint(tablet) {
+    justify-content: center;
+  }
 }
 .btn-white-pill {
   border-radius: 30px;
