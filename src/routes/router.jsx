@@ -4,6 +4,8 @@ import {
   Route,
   Outlet,
 } from "react-router-dom";
+import useGoogleTranslate from "../hooks/useGoogleTranslate";
+import { useLocation } from "react-router-dom";
 import Home from "../pages/Home";
 import Basics from "../pages/Basics";
 import Interests from "../pages/Interests";
@@ -17,16 +19,31 @@ import NavBar from "../components/ui/NavBar";
 import RequireSchool from "../components/guards/RequireSchool";
 
 const AppRouter = () => {
-  const AppLayout = () => (
-    <PageProvider>
-      <UserFlowProvider>
-        <div className='app-container'>
-          <Outlet />
-          <NavBar />
-        </div>
-      </UserFlowProvider>
-    </PageProvider>
-  );
+  const AppLayout = () => {
+    const location = useLocation();
+    const isHome = location.pathname === "/";
+
+    useGoogleTranslate(); // ✅ run the hook globally
+
+    return (
+      <PageProvider>
+        <UserFlowProvider>
+          <div className='app-container'>
+            <div
+              id='google_translate_element'
+              style={{
+                position: "absolute",
+                visibility: isHome ? "visible" : "hidden",
+                display: isHome ? "block" : "none",
+                zIndex: 9999,
+              }}></div>
+            <Outlet />
+            <NavBar />
+          </div>
+        </UserFlowProvider>
+      </PageProvider>
+    );
+  };
 
   return (
     <Router>

@@ -18,7 +18,6 @@ function Home() {
         <div className='logo'>
           <img src={fcpsLogo} alt='FCPS Logo' />
         </div>
-        <div className='translate'>(Translate)</div>
       </div>
       <div className='col-group-2'>
         <div className='col col-left'>
