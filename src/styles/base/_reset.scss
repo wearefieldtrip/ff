@@ -163,3 +163,11 @@ html {
     }
   }
 }
+
+html,
+body {
+  position: static !important;
+  min-height: auto !important;
+  top: auto !important;
+  overflow-x: hidden;
+}
