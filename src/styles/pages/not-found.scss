@@ -1,0 +1,89 @@
+.page-error {
+  @include breakpoint(tablet) {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .logo {
+    img {
+      padding: 20px;
+      margin: auto;
+      width: 150px;
+      box-sizing: content-box;
+
+      @include breakpoint(tablet) {
+        width: 200px;
+        margin: 0;
+        border-right: 2px solid $color-white;
+      }
+    }
+  }
+
+  .col-group {
+    border-top: 2px solid $color-white;
+
+    @include breakpoint(tablet) {
+      display: flex;
+      height: 100%;
+    }
+
+    .col {
+      width: 90%;
+      margin: auto;
+
+      @include breakpoint(tablet) {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        &:nth-of-type(2) {
+          border-left: 2px solid $color-white;
+          width: 50%;
+          padding: 0 4%;
+        }
+      }
+
+      .error404 {
+        font-size: 200px;
+        text-align: center;
+        display: block;
+
+        @include breakpoint(tablet) {
+          font-size: 20vw;
+        }
+      }
+      h1 {
+        text-align: center;
+        margin-bottom: 12px;
+
+        @include breakpoint(tablet) {
+          text-align: left;
+        }
+      }
+
+      .btn {
+        appearance: none;
+        font-size: 18px;
+        font-weight: $fw-medium;
+        background-color: $color-white;
+        border-radius: 30px;
+        color: $color-navy;
+        padding: 14px 24px;
+        transition: 0.25s ease-in-out all;
+        text-align: center;
+        width: fit-content;
+        display: table;
+        margin: auto;
+
+        @include breakpoint(tablet) {
+          margin: 0;
+        }
+
+        &:hover {
+          background-color: $color-light-navy;
+        }
+      }
+    }
+  }
+}
