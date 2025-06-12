@@ -11,7 +11,7 @@ import Basics from "../pages/Basics";
 import Interests from "../pages/Interests";
 import Outcomes from "../pages/Outcomes";
 import Results from "../pages/Results";
-import SingleProgram from "../pages/SingleProgram";
+import SingleOffering from "../pages/SingleOffering";
 import NotFound from "../pages/NotFound";
 import { PageProvider } from "../context/PageContext";
 import { UserFlowProvider } from "../context/UserFlowContext";
@@ -75,14 +75,7 @@ const AppRouter = () => {
               </RequireSchool>
             }
           />
-          <Route
-            path='/single-program'
-            element={
-              <RequireSchool>
-                <SingleProgram />
-              </RequireSchool>
-            }
-          />
+          <Route path='/single' element={<SingleOffering />} />
           <Route path='*' element={<NotFound />} />
         </Route>
       </Routes>

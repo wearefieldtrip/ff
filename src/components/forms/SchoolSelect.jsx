@@ -1,38 +1,50 @@
 import { useUserFlow } from "../../context/UserFlowContext";
+import { supabase } from "../../services/supabaseClient";
 
-function SchoolSelect() {
+function SchoolSelect({ schools = [] }) {
   const { userFlow, setUserFlow } = useUserFlow();
-  const selectedSchool = userFlow.homeSchool;
 
-  const handleSelect = (event) => {
-    const school = event.target.value;
+  const handleChange = async (e) => {
+    const selectedSchoolId = e.target.value;
+    const selectedSchool = schools.find(
+      (school) => school.name === selectedSchoolId
+    );
+
+    // Fetch interests for the selected school
+    const { data: interests, error } = await supabase
+      .from("interests")
+      .select("*")
+      .contains("associated_schools", [selectedSchoolId]);
+
+    console.log(interests);
+
+    if (error) {
+      console.error("Error fetching interests:", error);
+    }
 
     setUserFlow((prev) => ({
       ...prev,
-      homeSchool: school,
+      homeSchool: selectedSchool,
+      interests: interests || [],
     }));
   };
 
   return (
     <div className='school-select'>
-      <label htmlFor='school'>Select your school:</label>
-      <select id='school' value={selectedSchool || ""} onChange={handleSelect}>
-        <option value=''>Select a school</option>
-        <option>Bryan Station High School</option>
-        <option>Frederick Douglas High School</option>
-        <option>Henry Clay High School</option>
-        <option>Lafayette High School</option>
-        <option>Tates Creek High School</option>
+      <label htmlFor='school-select'>
+        Select your neighborhood {userFlow.gradeLevel.toLowerCase()} school
+      </label>
+      <select
+        id='school-select'
+        value={userFlow.homeSchool?.name || ""}
+        onChange={handleChange}>
+        <option value=''>Select a School</option>
+        {schools.map((school) => (
+          <option key={school.id} value={school.name}>
+            {school.name}
+          </option>
+        ))}
       </select>
-      <p className='school-finder'>
-        If you are unsure what your neighborhood school is, use{" "}
-        <a
-          href='https://www.schoolsitelocator.com/apps/fayette/'
-          target='_blank'>
-          this tool
-        </a>{" "}
-        to find out.
-      </p>
     </div>
   );
 }

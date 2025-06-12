@@ -7,7 +7,9 @@ export const UserFlowProvider = ({ children }) => {
     gradeLevel: null,
     homeSchool: null,
     interests: [],
-    outcome: null,
+    selectedInterests: [],
+    outcomes: [],
+    selectedOutcome: null,
   });
 
   return (

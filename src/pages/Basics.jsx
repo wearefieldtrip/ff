@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { usePage } from "../context/PageContext";
 import { useUserFlow } from "../context/UserFlowContext";
+import { supabase } from "../services/supabaseClient";
 import SchoolSelect from "../components/forms/SchoolSelect";
 import PageHeader from "../components/ui/PageHeader";
 import BubbleBtn from "../components/ui/BubbleBtn";
@@ -11,23 +12,39 @@ function Basics() {
   const selectedGrade = userFlow.gradeLevel;
 
   useEffect(() => {
+    const hasGrade = !!userFlow.gradeLevel;
+    const hasSchool = !!userFlow.homeSchool;
+
     setPageMeta({
-      nextPage: "/interests",
+      nextPage:
+        userFlow.gradeLevel === "Elementary" ? "/outcomes" : "/interests",
       showNext: true,
-      canProceed: false,
+      canProceed: hasGrade && hasSchool,
       hideComponent: false,
     });
   }, [userFlow.gradeLevel, userFlow.homeSchool, setPageMeta]);
 
   useEffect(() => {
-    const hasGrade = !!userFlow.gradeLevel;
-    const hasSchool = !!userFlow.homeSchool;
+    const fetchData = async () => {
+      if (!userFlow.gradeLevel) return;
 
-    setPageMeta((prev) => ({
-      ...prev,
-      canProceed: hasGrade && hasSchool,
-    }));
-  }, [userFlow.gradeLevel, userFlow.homeSchool, setPageMeta]);
+      // Fetch schools by level
+      const { data: schools, error: schoolError } = await supabase
+        .from("schools")
+        .select("*")
+        .eq("level", userFlow.gradeLevel);
+
+      if (schoolError) console.error("Error fetching schools:", schoolError);
+
+      // Update global flow or local state
+      setUserFlow((prev) => ({
+        ...prev,
+        schools: schools || [],
+      }));
+    };
+
+    fetchData();
+  }, [userFlow.gradeLevel, setUserFlow]);
 
   const handleGradeSelect = (grade) => {
     setUserFlow((prev) => ({
@@ -46,21 +63,21 @@ function Basics() {
         <div className='button-group'>
           <BubbleBtn
             label='Elementary Schools'
-            isActive={selectedGrade === "elementary"}
-            onClick={() => handleGradeSelect("elementary")}
+            isActive={selectedGrade === "Elementary"}
+            onClick={() => handleGradeSelect("Elementary")}
           />
           <BubbleBtn
             label='Middle Schools'
-            isActive={selectedGrade === "middle"}
-            onClick={() => handleGradeSelect("middle")}
+            isActive={selectedGrade === "Middle"}
+            onClick={() => handleGradeSelect("Middle")}
           />
           <BubbleBtn
             label='High Schools'
-            isActive={selectedGrade === "high"}
-            onClick={() => handleGradeSelect("high")}
+            isActive={selectedGrade === "High"}
+            onClick={() => handleGradeSelect("High")}
           />
         </div>
-        {selectedGrade && <SchoolSelect />}
+        {selectedGrade && <SchoolSelect schools={userFlow.schools} />}
       </div>
     </div>
   );
