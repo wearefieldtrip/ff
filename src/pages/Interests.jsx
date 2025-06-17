@@ -10,8 +10,6 @@ function Interests() {
 
   const availableInterests = userFlow.interests || [];
 
-  console.log(availableInterests);
-
   const [selectedInterests, setSelectedInterests] = useState(
     userFlow.selectedInterests || []
   );

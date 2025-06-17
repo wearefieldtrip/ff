@@ -16,8 +16,6 @@ function SchoolSelect({ schools = [] }) {
       .select("*")
       .contains("associated_schools", [selectedSchoolId]);
 
-    console.log(interests);
-
     if (error) {
       console.error("Error fetching interests:", error);
     }

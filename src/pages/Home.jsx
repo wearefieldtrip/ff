@@ -49,25 +49,25 @@ function Home() {
                 rx='29'
                 transform='rotate(180 59 59)'
                 stroke='white'
-                stroke-width='2'
+                strokeWidth='2'
               />
               <path
                 d='M31.27 45.13C31.27 36.53 38.24 29.56 46.84 29.56'
                 stroke='white'
-                stroke-width='2'
-                stroke-miterlimit='10'
+                strokeWidth='2'
+                strokeMiterlimit='10'
               />
               <path
                 d='M46.84 29.57C38.24 29.57 31.27 22.6 31.27 14'
                 stroke='white'
-                stroke-width='2'
-                stroke-miterlimit='10'
+                strokeWidth='2'
+                strokeMiterlimit='10'
               />
               <path
                 d='M46.84 29.57H14'
                 stroke='white'
-                stroke-width='2'
-                stroke-miterlimit='10'
+                strokeWidth='2'
+                strokeMiterlimit='10'
               />
             </svg>
           </Link>

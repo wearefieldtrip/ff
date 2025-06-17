@@ -10,13 +10,14 @@ import Home from "../pages/Home";
 import Basics from "../pages/Basics";
 import Interests from "../pages/Interests";
 import Outcomes from "../pages/Outcomes";
-import Results from "../pages/Results";
+import Results from "../pages/SingleOutcome";
 import SingleOffering from "../pages/SingleOffering";
 import NotFound from "../pages/NotFound";
 import { PageProvider } from "../context/PageContext";
 import { UserFlowProvider } from "../context/UserFlowContext";
 import NavBar from "../components/ui/NavBar";
 import RequireSchool from "../components/guards/RequireSchool";
+import SingleOutcome from "../pages/SingleOutcome";
 
 const AppRouter = () => {
   const AppLayout = () => {
@@ -68,10 +69,10 @@ const AppRouter = () => {
             }
           />
           <Route
-            path='/results'
+            path='/outcome/:slug'
             element={
               <RequireSchool>
-                <Results />
+                <SingleOutcome />
               </RequireSchool>
             }
           />
