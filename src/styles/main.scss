@@ -18,8 +18,9 @@
 @import "./components/nav-bar";
 
 // pages
-@import "./pages/home.scss";
-@import "./pages/basics.scss";
-@import "./pages/outcomes.scss";
+@import "./pages/home";
+@import "./pages/basics";
+@import "./pages/outcomes";
+@import "./pages/single-outcome";
 @import "./pages/single-offering";
-@import "./pages/not-found.scss";
+@import "./pages/not-found";

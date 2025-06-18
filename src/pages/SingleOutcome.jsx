@@ -1,27 +1,79 @@
 import { useUserFlow } from "../context/UserFlowContext";
 import { usePage } from "../context/PageContext";
 import PageHeader from "../components/ui/PageHeader";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import BubbleBtn from "../components/ui/BubbleBtn";
 import { Link } from "react-router-dom";
+import {
+  fetchOfferingsBySchoolAndOutcome,
+  fetchOfferingsBySchoolOutcomeInterest,
+} from "../services/fetchOfferings";
+import DynamicSectionRenderer from "../components/data/DynamicSectionRenderer";
 
 function SingleOutcome() {
-  const { userFlow } = useUserFlow();
+  const { userFlow, setUserFlow } = useUserFlow();
   const { setPageMeta } = usePage();
+  const selectedOutcome = userFlow.selectedOutcome;
 
-  const countSections = () => {
-    let count = 0;
-    for (let i = 1; i <= 3; i++) {
-      if (userFlow.selectedOutcome[`section_${i}_content`]) {
-        count++;
+  const [dynamicSectionData, setDynamicSectionData] = useState({});
+
+  const fetchDataForSection = async (key, dynamicType) => {
+    switch (dynamicType) {
+      case "populate_offerings_outcomes_school": {
+        const schoolName = userFlow.homeSchool?.name;
+        const outcomeName = selectedOutcome?.title;
+        if (schoolName && outcomeName) {
+          const offerings = await fetchOfferingsBySchoolAndOutcome(
+            schoolName,
+            outcomeName
+          );
+          setUserFlow((prev) => ({
+            ...prev,
+            outcomeOfferings: offerings,
+          }));
+          setDynamicSectionData((prev) => ({
+            ...prev,
+            [key]: offerings,
+          }));
+        }
+        break;
       }
+
+      case "populate_offerings_outcomes_interest_school": {
+        const schoolName = userFlow.homeSchool?.name;
+        const outcomeName = selectedOutcome?.title;
+        const interests = userFlow.selectedInterests || [];
+
+        const interestOfferings = {};
+        for (const interest of interests) {
+          const offerings = await fetchOfferingsBySchoolOutcomeInterest(
+            schoolName,
+            outcomeName,
+            interest
+          );
+          interestOfferings[interest] = offerings;
+        }
+        setDynamicSectionData((prev) => ({
+          ...prev,
+          [key]: interestOfferings,
+        }));
+        break;
+      }
+      case "populate_offerings_outcomes_magnet":
+      case "populate_offerings_outcomes_magnet_interest":
+      case "populate_external_school_link": {
+        const schoolLink = userFlow.homeSchool?.url;
+        setDynamicSectionData((prev) => ({
+          ...prev,
+          [key]: schoolLink,
+        }));
+        break;
+      }
+
+      default:
+        break;
     }
-    return count;
   };
-
-  const sectionCount = countSections();
-
-  console.log(sectionCount);
 
   useEffect(() => {
     setPageMeta({
@@ -31,31 +83,41 @@ function SingleOutcome() {
     });
   }, [userFlow.gradeLevel, userFlow.homeSchool, setPageMeta]);
 
+  useEffect(() => {
+    const sectionKeys = [1, 2, 3];
+
+    const fetchAllSections = async () => {
+      for (const key of sectionKeys) {
+        const dynamicType = selectedOutcome[`section_${key}_dynamic`];
+        if (dynamicType) {
+          await fetchDataForSection(key, dynamicType);
+        }
+      }
+    };
+
+    fetchAllSections();
+  }, [selectedOutcome]);
+
   return (
-    <div className='page-results page'>
+    <div className='page-single-outcome page'>
       <PageHeader
         flip={true}
-        title={userFlow.selectedOutcome.title}
+        title={selectedOutcome.title}
         subtitle="What's most important to you?"
       />
       <div className='content-wrapper large'>
-        {userFlow.selectedOutcome.section_1_content && (
-          <section>
-            <p>{userFlow.selectedOutcome.section_1_content}</p>
+        {[1, 2, 3].map((i) => {
+          const content = selectedOutcome[`section_${i}_content`];
+          const dynamicType = selectedOutcome[`section_${i}_dynamic`];
+          const dynamicData = dynamicSectionData[i];
 
-            {userFlow.selectedOutcome.section_1_button_1_style && (
-              <Link
-                className={userFlow.selectedOutcome.section_1_button_1_style}
-                to={"/other-offerings"}>
-                {userFlow.selectedOutcome.section_1_button_1_text}
-              </Link>
-            )}
-          </section>
-        )}
-
-        {userFlow.selectedOutcome.section_2_content && <h1>Section 2</h1>}
-
-        {userFlow.selectedOutcome.section_3_content && <h1>Section 3</h1>}
+          return (
+            <section key={i}>
+              {content && <p className='section-intro-text'>{content}</p>}
+              <DynamicSectionRenderer type={dynamicType} data={dynamicData} />
+            </section>
+          );
+        })}
       </div>
     </div>
   );

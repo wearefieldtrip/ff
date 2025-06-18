@@ -10,6 +10,8 @@ export const UserFlowProvider = ({ children }) => {
     selectedInterests: [],
     outcomes: [],
     selectedOutcome: null,
+    outcomeOfferings: {},
+    interestOfferings: {},
   });
 
   return (
