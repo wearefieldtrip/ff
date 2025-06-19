@@ -17,7 +17,6 @@ function Home() {
       <div className='col-group-1'>
         <div className='logo'>
           <img src={fcpsLogo} alt='FCPS Logo' />
-          <o></o>
         </div>
       </div>
       <div className='col-group-2'>
