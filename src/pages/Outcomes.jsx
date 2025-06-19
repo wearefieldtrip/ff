@@ -1,15 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { usePage } from "../context/PageContext";
 import { useUserFlow } from "../context/UserFlowContext";
 import BubbleBtn from "../components/ui/BubbleBtn";
-import { supabase } from "../services/supabaseClient";
 
 function Outcomes() {
   const { setPageMeta } = usePage();
   const { userFlow, setUserFlow } = useUserFlow();
-  const [selectedOutcome, setSelectedOutcome] = useState(
-    userFlow.outcome || null
-  );
+
+  // Filter outcomes based on selected level
+  const availableOutcomes = useMemo(() => {
+    return (userFlow.allOutcomes || []).filter((outcome) =>
+      outcome.level?.includes(userFlow.selectedLevel)
+    );
+  }, [userFlow.allOutcomes, userFlow.selectedLevel]);
 
   useEffect(() => {
     setPageMeta({
@@ -17,34 +20,13 @@ function Outcomes() {
         ? `/outcome/${userFlow.selectedOutcome.slug}`
         : null,
       showNext: true,
-      canProceed: !!selectedOutcome,
+      canProceed: !!userFlow.selectedOutcome,
       hideComponent: false,
     });
-  }, [selectedOutcome, setPageMeta, userFlow.selectedOutcome]);
-
-  useEffect(() => {
-    const fetchOutcomes = async () => {
-      if (!userFlow.gradeLevel) return;
-
-      const { data: outcomes, error } = await supabase
-        .from("outcomes")
-        .select("*")
-        .contains("level", [userFlow.gradeLevel]);
-
-      if (error) {
-        console.error("Error fetching outcomes:", error);
-      } else {
-        setUserFlow((prev) => ({ ...prev, outcomes: outcomes || [] }));
-      }
-    };
-
-    fetchOutcomes();
-  }, [userFlow.gradeLevel, setUserFlow]);
+  }, [userFlow.selectedOutcome, setPageMeta]);
 
   const handleSelect = (outcome) => {
-    const isSame = selectedOutcome === outcome.title;
-
-    setSelectedOutcome(isSame ? null : outcome.title);
+    const isSame = userFlow.selectedOutcome?.title === outcome.title;
 
     setUserFlow((prev) => ({
       ...prev,
@@ -60,13 +42,16 @@ function Outcomes() {
           <p>You can always come back and select another option.</p>
         </div>
         <div className='button-group'>
-          {userFlow.outcomes?.map((outcome) => (
+          {availableOutcomes.map((outcome) => (
             <BubbleBtn
               key={outcome.id}
               label={outcome.title}
               size='large'
-              isActive={selectedOutcome === outcome.title}
-              disabled={!!selectedOutcome && selectedOutcome !== outcome.title}
+              isActive={userFlow.selectedOutcome?.title === outcome.title}
+              disabled={
+                !!userFlow.selectedOutcome &&
+                userFlow.selectedOutcome.title !== outcome.title
+              }
               onClick={() => handleSelect(outcome)}
             />
           ))}

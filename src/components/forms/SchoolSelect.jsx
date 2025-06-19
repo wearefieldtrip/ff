@@ -1,40 +1,35 @@
 import { useUserFlow } from "../../context/UserFlowContext";
-import { supabase } from "../../services/supabaseClient";
 
 function SchoolSelect({ schools = [] }) {
   const { userFlow, setUserFlow } = useUserFlow();
 
-  const handleChange = async (e) => {
+  const handleChange = (e) => {
     const selectedSchoolId = e.target.value;
     const selectedSchool = schools.find(
       (school) => school.name === selectedSchoolId
     );
 
-    // Fetch interests for the selected school
-    const { data: interests, error } = await supabase
-      .from("interests")
-      .select("*")
-      .contains("associated_schools", [selectedSchoolId]);
-
-    if (error) {
-      console.error("Error fetching interests:", error);
-    }
+    // Filter interests based on associated_schools
+    const schoolInterests = userFlow.allInterests.filter(
+      (interest) =>
+        interest.associated_schools &&
+        interest.associated_schools.includes(selectedSchool.name)
+    );
 
     setUserFlow((prev) => ({
       ...prev,
-      homeSchool: selectedSchool,
-      interests: interests || [],
+      selectedSchool,
     }));
   };
 
   return (
     <div className='school-select'>
       <label htmlFor='school-select'>
-        Select your neighborhood {userFlow.gradeLevel.toLowerCase()} school
+        Select your neighborhood {userFlow.selectedLevel?.toLowerCase()} school
       </label>
       <select
         id='school-select'
-        value={userFlow.homeSchool?.name || ""}
+        value={userFlow.selectedSchool?.name || ""}
         onChange={handleChange}>
         <option value=''>Select a School</option>
         {schools.map((school) => (

@@ -7,12 +7,12 @@ const RequireSchool = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!userFlow.homeSchool) {
+    if (!userFlow.selectedSchool) {
       navigate("/");
     }
-  }, [userFlow.homeSchool, navigate]);
+  }, [userFlow.selectedSchool, navigate]);
 
-  return userFlow.homeSchool ? children : null;
+  return userFlow.selectedSchool ? children : null;
 };
 
 export default RequireSchool;

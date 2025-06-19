@@ -1,39 +1,40 @@
-import { supabase } from "./supabaseClient"; // adjust path as needed
-
-export async function fetchOfferingsBySchoolAndOutcome(
+/**
+ * Filters offerings by school name and outcome title.
+ * @param {Array} offerings - All offerings.
+ * @param {string} schoolName - The school to filter by.
+ * @param {string} outcomeName - The outcome to filter by.
+ * @returns {Array} - Filtered offerings.
+ */
+export function filterOfferingsBySchoolAndOutcome(
+  offerings,
   schoolName,
   outcomeName
 ) {
-  const { data, error } = await supabase
-    .from("offerings")
-    .select("*")
-    .contains("associated_schools", [schoolName])
-    .contains("associated_outcomes", [outcomeName]);
-
-  if (error) {
-    console.error("Error fetching offerings:", error);
-    return [];
-  }
-
-  return data;
+  return offerings.filter(
+    (offering) =>
+      offering.associated_schools?.includes(schoolName) &&
+      offering.associated_outcomes?.includes(outcomeName)
+  );
 }
 
-export async function fetchOfferingsBySchoolOutcomeInterest(
+/**
+ * Filters offerings by school, outcome, and interest.
+ * @param {Array} offerings - All offerings.
+ * @param {string} schoolName - The school to filter by.
+ * @param {string} outcomeName - The outcome to filter by.
+ * @param {string} interest - The interest to filter by.
+ * @returns {Array} - Filtered offerings.
+ */
+export function filterOfferingsBySchoolOutcomeInterest(
+  offerings,
   schoolName,
   outcomeName,
   interest
 ) {
-  const { data, error } = await supabase
-    .from("offerings")
-    .select("*")
-    .contains("associated_schools", [schoolName])
-    .contains("associated_outcomes", [outcomeName])
-    .contains("associated_interests", [interest]);
-
-  if (error) {
-    console.error("Error fetching offerings:", error);
-    return [];
-  }
-
-  return data;
+  return offerings.filter(
+    (offering) =>
+      offering.associated_schools?.includes(schoolName) &&
+      offering.associated_outcomes?.includes(outcomeName) &&
+      offering.associated_interests?.includes(interest)
+  );
 }

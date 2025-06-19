@@ -1,16 +1,22 @@
 import { Link } from "react-router-dom";
 
 const DynamicSectionRenderer = ({ type, data }) => {
-  if (!type || !data) return null;
+  if (!type || !data || (Array.isArray(data) && data.length === 0)) return null;
 
   switch (type) {
     case "populate_offerings_outcomes_school":
       return (
-        <ul className='list-disc list-inside mb-4'>
-          {data.map((offering, idx) => (
-            <li key={idx}>{offering.title}</li>
-          ))}
-        </ul>
+        <div className='outcome-offering-list'>
+          <ul className='list-disc list-inside mb-4'>
+            {data.map((offering) => (
+              <li key={offering.id || offering.slug}>
+                <Link className='btn' to={`/offering/${offering.slug}`}>
+                  {offering.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
       );
 
     case "populate_offerings_outcomes_interest_school":
@@ -19,16 +25,26 @@ const DynamicSectionRenderer = ({ type, data }) => {
           {Object.entries(data).map(([interest, offerings]) => (
             <div key={interest}>
               <h5>{interest}</h5>
-              <ul className='list-disc list-inside'>
-                {offerings.map((offering, idx) => (
-                  <Link
-                    className='btn'
-                    to={`/offering/${offering.slug}`}
-                    key={idx}>
-                    {offering.title}
+              {offerings.length === 0 ? (
+                <p className='no-programs-message'>
+                  No programs were found for this interest at this school.
+                </p>
+              ) : (
+                <>
+                  <ul className='list-disc list-inside'>
+                    {offerings.map((offering) => (
+                      <li key={offering.id || offering.slug}>
+                        <Link className='btn' to={`/offering/${offering.slug}`}>
+                          {offering.title}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                  <Link className='underline_text' to='/other-interests'>
+                    Options at Other FCPS Schools
                   </Link>
-                ))}
-              </ul>
+                </>
+              )}
             </div>
           ))}
         </div>
@@ -36,7 +52,11 @@ const DynamicSectionRenderer = ({ type, data }) => {
 
     case "populate_external_school_link":
       return (
-        <a className='btn' href={data} target='_blank'>
+        <a
+          className='btn school-link'
+          href={data}
+          target='_blank'
+          rel='noopener noreferrer'>
           Visit School Website
         </a>
       );

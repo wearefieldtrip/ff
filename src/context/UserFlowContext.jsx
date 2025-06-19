@@ -4,14 +4,14 @@ const UserFlowContext = createContext();
 
 export const UserFlowProvider = ({ children }) => {
   const [userFlow, setUserFlow] = useState({
-    gradeLevel: null,
-    homeSchool: null,
-    interests: [],
+    selectedLevel: null,
+    selectedSchool: null,
     selectedInterests: [],
-    outcomes: [],
     selectedOutcome: null,
-    outcomeOfferings: {},
-    interestOfferings: {},
+    allSchools: [],
+    allOutcomes: [],
+    allOfferings: [],
+    allInterests: [],
   });
 
   return (

@@ -1,4 +1,5 @@
-.btn {
+.btn,
+.button {
   font-size: 18px;
   font-weight: $fw-medium;
   border-radius: 30px;
@@ -8,4 +9,10 @@
   padding: 16px 32px;
   width: fit-content;
   display: table;
+  transition: 0.25s ease-in-out all;
+
+  &:hover:not(.disabled),
+  &.active {
+    background-color: $color-light-navy;
+  }
 }

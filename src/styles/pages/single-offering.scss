@@ -1,4 +1,9 @@
 .page-single-offering {
+  @include breakpoint(desktop) {
+    display: flex;
+    flex-direction: column;
+  }
+
   .page-header {
     margin-bottom: 0;
   }
@@ -7,6 +12,8 @@
     @include breakpoint(desktop) {
       display: flex;
       box-sizing: content-box;
+      margin: 0 auto;
+      height: 100%;
     }
 
     .col:first-of-type {
@@ -35,9 +42,9 @@
       }
 
       .media {
+        margin-bottom: 36px;
         @include breakpoint(desktop) {
           border-bottom: 2px solid $color-white;
-          margin-bottom: 36px;
         }
 
         .video {
@@ -58,7 +65,8 @@
       }
 
       .offering-url {
-        margin: auto;
+        margin: 0 auto;
+        max-width: 90%;
       }
     }
   }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { usePage } from "../context/PageContext";
 import { useUserFlow } from "../context/UserFlowContext";
 import PageHeader from "../components/ui/PageHeader";
@@ -8,11 +8,12 @@ function Interests() {
   const { setPageMeta } = usePage();
   const { userFlow, setUserFlow } = useUserFlow();
 
-  const availableInterests = userFlow.interests || [];
-
-  const [selectedInterests, setSelectedInterests] = useState(
-    userFlow.selectedInterests || []
+  const availableInterests = (userFlow.allInterests || []).filter(
+    (interest) =>
+      userFlow.selectedSchool &&
+      interest.associated_schools?.includes(userFlow.selectedSchool.name)
   );
+  const selectedInterests = userFlow.selectedInterests || [];
 
   useEffect(() => {
     setPageMeta({
@@ -31,10 +32,9 @@ function Interests() {
     } else if (selectedInterests.length < 2) {
       updated = [...selectedInterests, interest];
     } else {
-      return; // Do nothing if limit is reached
+      return;
     }
 
-    setSelectedInterests(updated);
     setUserFlow((prev) => ({
       ...prev,
       selectedInterests: updated,
@@ -70,4 +70,5 @@ function Interests() {
     </div>
   );
 }
+
 export default Interests;

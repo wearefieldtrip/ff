@@ -18,6 +18,8 @@ import { UserFlowProvider } from "../context/UserFlowContext";
 import NavBar from "../components/ui/NavBar";
 import RequireSchool from "../components/guards/RequireSchool";
 import SingleOutcome from "../pages/SingleOutcome";
+import OtherOptions from "../pages/OtherOptions";
+import OtherIntersts from "../pages/OtherInterests";
 
 const AppRouter = () => {
   const AppLayout = () => {
@@ -76,7 +78,30 @@ const AppRouter = () => {
               </RequireSchool>
             }
           />
-          <Route path='/single' element={<SingleOffering />} />
+          <Route
+            path='/offering/:slug'
+            element={
+              <RequireSchool>
+                <SingleOffering />
+              </RequireSchool>
+            }
+          />
+          <Route
+            path='/other-offerings'
+            element={
+              <RequireSchool>
+                <OtherOptions />
+              </RequireSchool>
+            }
+          />
+          <Route
+            path='/other-interests'
+            element={
+              <RequireSchool>
+                <OtherIntersts />
+              </RequireSchool>
+            }
+          />
           <Route path='*' element={<NotFound />} />
         </Route>
       </Routes>
