@@ -20,13 +20,15 @@ import RequireSchool from "../components/guards/RequireSchool";
 import SingleOutcome from "../pages/SingleOutcome";
 import OtherOptions from "../pages/OtherOptions";
 import OtherIntersts from "../pages/OtherInterests";
+import usePageTracking from "../hooks/usePageTracking";
 
 const AppRouter = () => {
   const AppLayout = () => {
     const location = useLocation();
     const isHome = location.pathname === "/";
 
-    useGoogleTranslate(); // ✅ run the hook globally
+    useGoogleTranslate();
+    usePageTracking();
 
     return (
       <PageProvider>
