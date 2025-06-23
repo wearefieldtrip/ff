@@ -3,6 +3,7 @@ import { usePage } from "../context/PageContext";
 import { useUserFlow } from "../context/UserFlowContext";
 import PageHeader from "../components/ui/PageHeader";
 import BubbleBtn from "../components/ui/BubbleBtn";
+import { trackEvent } from "../utils/ga";
 
 function Interests() {
   const { setPageMeta } = usePage();
@@ -40,6 +41,19 @@ function Interests() {
       selectedInterests: updated,
     }));
   };
+
+  useEffect(() => {
+    if (userFlow.selectedInterests.length > 0) {
+      const combinedInterests = userFlow.selectedInterests.join(", ");
+      trackEvent({
+        action: "select_interests",
+        category: "User Engagement",
+        params: {
+          selected_interests: combinedInterests,
+        },
+      });
+    }
+  }, [userFlow.selectedInterests]);
 
   return (
     <div className='page-basics page'>

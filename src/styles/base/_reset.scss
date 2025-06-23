@@ -118,19 +118,13 @@ html {
   visibility: hidden;
 }
 
-.dummy-div {
-  width: 50%;
-  height: 10000px;
-  background-color: red;
-  margin: 50px auto;
-}
-
 #google_translate_element {
-  top: 14px;
-  right: 20px;
+  top: 15px;
+  right: 8px;
 
   @include breakpoint(tablet) {
     top: 18px;
+    right: 20px;
   }
 
   .goog-te-gadget {
@@ -149,8 +143,8 @@ html {
       border: 2px solid $color-white;
       border-radius: $border-radius;
       margin-bottom: 8px;
-      font-size: 12px;
-      padding: 12px 18px;
+      font-size: 10px;
+      padding: 8px 12px;
       background-image: url("/images/icons/icon-select-arrow-white.svg");
       background-size: 18px;
       background-repeat: no-repeat;
@@ -159,6 +153,7 @@ html {
 
       @include breakpoint(tablet) {
         font-size: 14px;
+        padding: 12px 18px;
       }
     }
   }

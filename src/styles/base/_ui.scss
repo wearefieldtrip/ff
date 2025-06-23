@@ -16,3 +16,22 @@
     background-color: $color-light-navy;
   }
 }
+
+.button-list {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+
+  li {
+    width: 100%;
+    @include breakpoint(tablet) {
+      flex: 1 1 calc((100% - 3 * 20px) / 4);
+      max-width: calc((100% - 3 * 20px) / 4);
+    }
+
+    a {
+      width: 100%;
+    }
+  }
+}

@@ -5,6 +5,7 @@ import { useInitialData } from "../hooks/useInitialData";
 import SchoolSelect from "../components/forms/SchoolSelect";
 import PageHeader from "../components/ui/PageHeader";
 import BubbleBtn from "../components/ui/BubbleBtn";
+import { trackEvent } from "../utils/ga";
 
 function Basics() {
   const { setPageMeta } = usePage();
@@ -49,10 +50,13 @@ function Basics() {
   }, [userFlow.selectedLevel, userFlow.selectedSchool, setPageMeta]);
 
   const handleGradeSelect = (grade) => {
+    trackEvent("select_grade", {
+      grade_level: grade,
+    });
     setUserFlow((prev) => ({
       ...prev,
       selectedLevel: grade,
-      selectedSchool: null, // clear previously selected school if grade changes
+      selectedSchool: null,
     }));
   };
 

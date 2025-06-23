@@ -7,7 +7,7 @@ const DynamicSectionRenderer = ({ type, data }) => {
     case "populate_offerings_outcomes_school":
       return (
         <div className='outcome-offering-list'>
-          <ul className='list-disc list-inside mb-4'>
+          <ul className='button-list'>
             {data.map((offering) => (
               <li key={offering.id || offering.slug}>
                 <Link className='btn' to={`/offering/${offering.slug}`}>

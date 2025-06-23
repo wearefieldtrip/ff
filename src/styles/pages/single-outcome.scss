@@ -33,24 +33,6 @@
         }
       }
 
-      .outcome-offering-list {
-        ul {
-          display: flex;
-          justify-content: center;
-          flex-wrap: wrap;
-          gap: 20px;
-
-          li {
-            flex: 1 1 calc((100% - 3 * 20px) / 4); /* 5 items, 4 gaps */
-            max-width: calc((100% - 3 * 20px) / 4);
-
-            a {
-              width: 100%;
-            }
-          }
-        }
-      }
-
       .interest-group {
         display: flex;
         gap: 75px;

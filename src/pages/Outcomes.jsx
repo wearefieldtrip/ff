@@ -2,6 +2,7 @@ import { useEffect, useMemo } from "react";
 import { usePage } from "../context/PageContext";
 import { useUserFlow } from "../context/UserFlowContext";
 import BubbleBtn from "../components/ui/BubbleBtn";
+import { trackEvent } from "../utils/ga";
 
 function Outcomes() {
   const { setPageMeta } = usePage();
@@ -33,6 +34,18 @@ function Outcomes() {
       selectedOutcome: isSame ? null : outcome,
     }));
   };
+
+  useEffect(() => {
+    if (userFlow.selectedOutcome) {
+      trackEvent({
+        action: "select_outcome",
+        category: "User Engagement",
+        params: {
+          selected_outcome: userFlow.selectedOutcome.title,
+        },
+      });
+    }
+  }, [userFlow.selectedOutcome]);
 
   return (
     <div className='page-outcomes page'>

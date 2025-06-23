@@ -19,7 +19,7 @@
 .button-group {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
+  gap: 1.25rem;
   justify-content: center;
 
   @include breakpoint(tablet) {

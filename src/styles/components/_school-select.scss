@@ -11,12 +11,17 @@
     background-color: $color-white;
     border-radius: $border-radius;
     margin-bottom: 8px;
-    font-size: 18px;
+    font-size: 16px;
     min-height: 52px;
-    padding: 12px 30px;
+    padding: 12px 48px 12px 18px;
     background-image: url("/images/icons/icon-select-arrow.svg");
     background-repeat: no-repeat;
     background-position: right 20px center;
+
+    @include breakpoint(tablet) {
+      font-size: 18px;
+      padding: 12px 30px;
+    }
   }
 
   .school-finder {

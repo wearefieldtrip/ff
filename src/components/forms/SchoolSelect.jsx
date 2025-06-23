@@ -1,4 +1,5 @@
 import { useUserFlow } from "../../context/UserFlowContext";
+import { trackEvent } from "../../utils/ga";
 
 function SchoolSelect({ schools = [] }) {
   const { userFlow, setUserFlow } = useUserFlow();
@@ -9,7 +10,10 @@ function SchoolSelect({ schools = [] }) {
       (school) => school.name === selectedSchoolId
     );
 
-    // Filter interests based on associated_schools
+    trackEvent("select_school", {
+      school_name: selectedSchool.name,
+    });
+
     const schoolInterests = userFlow.allInterests.filter(
       (interest) =>
         interest.associated_schools &&
@@ -38,6 +42,15 @@ function SchoolSelect({ schools = [] }) {
           </option>
         ))}
       </select>
+      <p className='school-finder'>
+        If you are unsure what your neighborhood school is, use{" "}
+        <a
+          href='https://www.schoolsitelocator.com/apps/fayette/'
+          target='_blank'>
+          this tool
+        </a>{" "}
+        to find out.
+      </p>
     </div>
   );
 }

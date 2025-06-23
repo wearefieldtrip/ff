@@ -6,7 +6,6 @@
   width: 100%;
   min-height: 60px;
   padding: 12px;
-  flex-grow: 0 !important;
   color: $color-navy;
   transition: 0.25s ease-in-out all;
 
@@ -14,13 +13,22 @@
     flex: 1 1 calc(25% - 1.5rem);
     min-height: 80px;
     padding: 16px;
+    flex-grow: 0 !important;
   }
 
   &.large {
     flex: 1 1 calc(33.33% - 1.5rem);
-    padding: 48px 32px;
-    font-size: 24px;
+    padding: 36px 28px;
+    font-size: 18px;
     font-weight: $fw-medium;
+    width: 100%;
+    flex-grow: 1;
+
+    @include breakpoint(tablet) {
+      font-size: 24px;
+      flex-grow: 0;
+      padding: 48px 32px;
+    }
   }
 
   &:hover:not(.disabled),
