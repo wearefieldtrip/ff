@@ -32,8 +32,12 @@
       max-width: 800px;
     }
 
-    &.large {
+    &.medium {
       max-width: 1080px;
+    }
+
+    &.large {
+      width: 75%;
     }
 
     &.full {

@@ -15,6 +15,14 @@
   &.active {
     background-color: $color-light-navy;
   }
+
+  &.aqua {
+    background-color: $color-aqua;
+
+    &:hover {
+      background-color: #93d6dc;
+    }
+  }
 }
 
 .button-list {

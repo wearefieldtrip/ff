@@ -23,7 +23,9 @@ function SingleOutcome() {
     return userFlow.allOfferings.filter(
       (offering) =>
         offering.associated_schools?.includes(schoolName) &&
-        offering.associated_outcomes?.includes(outcomeName)
+        offering.associated_outcomes?.includes(outcomeName) &&
+        (!offering.associated_interests ||
+          offering.associated_interests.length === 0)
     );
   };
 

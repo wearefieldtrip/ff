@@ -49,7 +49,7 @@ function Outcomes() {
 
   return (
     <div className='page-outcomes page'>
-      <div className='content-wrapper large'>
+      <div className='content-wrapper medium'>
         <div className='intro'>
           <h1>What's most important to you?</h1>
           <p>You can always come back and select another option.</p>

@@ -75,7 +75,7 @@ function SingleOffering() {
           </div>
           {offering.url && (
             <a
-              className='offering-url btn'
+              className='offering-url btn aqua'
               href={offering.url}
               target='_blank'
               rel='noopener noreferrer'>
