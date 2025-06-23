@@ -66,7 +66,7 @@ function Basics() {
         title="Let's start with the basics"
         subtitle='Innovative options are found at all schools. First, select a grade level. Then, select your neighborhood school to explore.'
       />
-      <div className='content-wrapper small'>
+      <div className='content-wrapper large'>
         <div className='button-group'>
           <BubbleBtn
             label='Elementary Schools'
