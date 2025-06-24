@@ -10,8 +10,8 @@ function OtherOptions() {
     (offering) =>
       offering.is_magnet &&
       offering.associated_outcomes?.includes(selectedOutcome.title) &&
-      !offering.associated_schools?.includes(selectedSchool.name) &&
-      offering.level === userFlow.selectedLevel
+      offering.associated_level?.includes(userFlow.selectedLevel) &&
+      !offering.associated_schools?.includes(selectedSchool.name)
   );
   return (
     <div className='page-other-options page'>

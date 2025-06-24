@@ -33,6 +33,11 @@ function Home() {
         </div>
         <div className='col col-right'>
           <img className='ff-logo' src={ffLogo} alt='Fayette Logo' />
+          <p className='explainer'>
+            With Fayette Forward at FCPS, students have more opportunities,
+            resources, and programs to create their own educational path and
+            explore personal dreams.
+          </p>
           <Link to={"/basics"} className='group'>
             <h3>Explore your options</h3>
             <svg

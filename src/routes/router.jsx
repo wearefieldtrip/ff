@@ -21,6 +21,7 @@ import SingleOutcome from "../pages/SingleOutcome";
 import OtherOptions from "../pages/OtherOptions";
 import OtherIntersts from "../pages/OtherInterests";
 import usePageTracking from "../hooks/usePageTracking";
+import ScrollToTop from "../components/ui/ScrollTop";
 
 const AppRouter = () => {
   const AppLayout = () => {
@@ -33,6 +34,7 @@ const AppRouter = () => {
     return (
       <PageProvider>
         <UserFlowProvider>
+          <ScrollToTop />
           <div className='app-container'>
             <div
               id='google_translate_element'

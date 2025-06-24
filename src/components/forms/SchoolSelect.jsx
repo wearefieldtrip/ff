@@ -23,6 +23,8 @@ function SchoolSelect({ schools = [] }) {
     setUserFlow((prev) => ({
       ...prev,
       selectedSchool,
+      selectedInterests: [],
+      selectedOutcome: null,
     }));
   };
 

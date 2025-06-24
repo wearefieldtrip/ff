@@ -78,9 +78,10 @@
     .col-right {
       padding: 20px;
       display: flex;
+      flex-direction: column;
 
       @include breakpoint(tablet) {
-        flex: 1;
+        flex: 1.25;
         display: flex;
         border-left: 2px solid $color-white;
         flex-direction: column;
@@ -95,6 +96,12 @@
           padding: 40px 54px;
           border-bottom: 2px solid $color-white;
         }
+      }
+
+      .explainer {
+        font-size: 22px;
+        width: 90%;
+        margin: 36px auto;
       }
 
       .group {
