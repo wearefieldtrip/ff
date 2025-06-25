@@ -34,13 +34,23 @@
       }
 
       .interest-group {
-        display: flex;
-        gap: 75px;
+        @include breakpoint(tablet) {
+          display: flex;
+          gap: 75px;
+          justify-content: center;
+        }
 
         > div {
-          width: 50%;
-          display: flex;
-          flex-direction: column;
+          &:first-of-type {
+            margin-bottom: 40px;
+          }
+
+          @include breakpoint(tablet) {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 0;
+          }
 
           h5 {
             text-align: center;
@@ -55,9 +65,14 @@
             flex-wrap: wrap;
             width: 100%;
             justify-content: center;
+            margin-bottom: 16px;
 
             li {
-              width: calc(50% - 10px);
+              width: 100%;
+
+              @include breakpoint(tablet) {
+                width: calc(50% - 10px);
+              }
 
               a {
                 width: 100%;
@@ -72,6 +87,7 @@
           .underline_text {
             text-align: center;
             margin: 20px auto 0;
+            display: table;
           }
         }
       }
@@ -81,4 +97,9 @@
       }
     }
   }
+}
+
+section {
+  display: flex;
+  flex-direction: column;
 }

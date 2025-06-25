@@ -13,6 +13,7 @@ export function filterOfferingsBySchoolAndOutcome(
   console.log("ran");
   return offerings.filter(
     (offering) =>
+      !offering.is_magnet &&
       offering.associated_schools?.includes(schoolName) &&
       offering.associated_outcomes?.includes(outcomeName) &&
       (!offering.associated_interests ||
@@ -35,6 +36,7 @@ export function filterOfferingsBySchoolOutcomeInterest(
 ) {
   return offerings.filter(
     (offering) =>
+      !offering.is_magnet &&
       offering.associated_schools?.includes(schoolName) &&
       offering.associated_outcomes?.includes(outcomeName) &&
       offering.associated_interests?.includes(interest)

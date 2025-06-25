@@ -70,7 +70,12 @@ function SingleOffering() {
                 />
               </div>
             ) : (
-              <div>Default image here</div>
+              <div className='image'>
+                <img
+                  src='/public/images/default.webp'
+                  alt='A student in a gray hoodie sits at a desk with a laptop in a classroom, with other students working at desks in the background.'
+                />
+              </div>
             )}
           </div>
           {offering.url && (

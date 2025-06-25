@@ -36,6 +36,23 @@ function SingleOutcome() {
   ) => {
     return userFlow.allOfferings.filter(
       (offering) =>
+        !offering.is_magnet &&
+        !offering.is_technical &&
+        offering.associated_schools?.includes(schoolName) &&
+        offering.associated_outcomes?.includes(outcomeName) &&
+        offering.associated_interests?.includes(interest)
+    );
+  };
+
+  const fetchOfferingsBySchoolOutcomeInterestTechnical = (
+    schoolName,
+    outcomeName,
+    interest
+  ) => {
+    return userFlow.allOfferings.filter(
+      (offering) =>
+        offering.is_magnet &&
+        offering.is_technical &&
         offering.associated_schools?.includes(schoolName) &&
         offering.associated_outcomes?.includes(outcomeName) &&
         offering.associated_interests?.includes(interest)
@@ -72,8 +89,23 @@ function SingleOutcome() {
         break;
       }
 
-      case "populate_offerings_outcomes_magnet":
-      case "populate_offerings_outcomes_magnet_interest":
+      case "populate_offerings_technical_interests_school": {
+        const interestOfferingsTechnical = {};
+        for (const interest of userFlow.selectedInterests || []) {
+          interestOfferingsTechnical[interest] =
+            fetchOfferingsBySchoolOutcomeInterestTechnical(
+              schoolName,
+              outcomeName,
+              interest
+            );
+        }
+        setDynamicSectionData((prev) => ({
+          ...prev,
+          [key]: interestOfferingsTechnical,
+        }));
+        break;
+      }
+
       case "populate_external_school_link": {
         const schoolLink = userFlow.selectedSchool?.url;
         setDynamicSectionData((prev) => ({ ...prev, [key]: schoolLink }));
@@ -123,7 +155,7 @@ function SingleOutcome() {
         subtitle="What's most important to you?"
       />
       <div className='content-wrapper large'>
-        {[1, 2, 3].map((i) => {
+        {[1, 2, 3, 4].map((i) => {
           const content = selectedOutcome[`section_${i}_content`];
           const dynamicType = selectedOutcome[`section_${i}_dynamic`];
           const dynamicData = dynamicSectionData[i];
