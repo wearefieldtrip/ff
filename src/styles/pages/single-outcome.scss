@@ -13,11 +13,11 @@
     }
 
     .link-group {
-      h5 {
+      .label {
         font-size: 18px;
         margin-bottom: 16px;
         text-align: center;
-        font-weight: $fw-medium;
+        font-weight: $fw-regular;
       }
 
       ul {
@@ -39,6 +39,7 @@
           }
 
           a {
+            width: 100%;
             @include breakpoint(desktop) {
               align-self: stretch;
               display: inline-flex;

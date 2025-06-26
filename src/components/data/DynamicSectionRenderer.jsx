@@ -25,7 +25,7 @@ const renderInterestGroup = (data, includeOtherLink = false) => {
     <div className='link-group two-col'>
       {filteredEntries.map(([interest, offerings]) => (
         <div key={interest}>
-          <h5>{interest}</h5>
+          <span className='label'>{interest}</span>
           {renderOfferingList(offerings)}
           {includeOtherLink && (
             <Link

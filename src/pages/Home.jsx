@@ -29,7 +29,7 @@ function Home() {
       </div>
       <div className='bottom'>
         <div className='col-left'>
-          <h1>
+          <h1 className='large'>
             Fayette Forward offers learning options where students choose their
             path and pace.
           </h1>
@@ -41,7 +41,7 @@ function Home() {
         </div>
         <div className='col-right'>
           <img className='ff-logo' src={ffLogo} alt='Fayette Logo' />
-          <p className='explainer'>
+          <p className='explainer body-large'>
             With Fayette Forward at FCPS, students have more opportunities,
             resources, and programs to create their own educational path and
             explore personal dreams.

@@ -147,11 +147,8 @@
 
       .explainer {
         margin-bottom: 18px;
-        font-size: 18px;
-
         @include breakpoint(desktop) {
           padding: 36px;
-          font-size: 22px;
         }
       }
 
