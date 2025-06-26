@@ -39,12 +39,12 @@ function SingleProgram() {
       <div className='content-wrapper full'>
         <div className='col'>
           <div className='text-block'>
-            <h3>{offering.heading_1}</h3>
+            <h2>{offering.heading_1}</h2>
             <p>{offering.content_1}</p>
           </div>
 
           <div className='text-block'>
-            <h3>{offering.heading_2}</h3>
+            <h2>{offering.heading_2}</h2>
             <p>{offering.content_2}</p>
           </div>
         </div>
