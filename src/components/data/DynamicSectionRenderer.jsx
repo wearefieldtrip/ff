@@ -1,16 +1,57 @@
 import { Link } from "react-router-dom";
 
+const renderOfferingList = (offerings) => (
+  <div className='link-group'>
+    <ul>
+      {offerings.map((offering) => (
+        <li key={offering.id || offering.slug}>
+          <Link className='button' to={`/program/${offering.slug}`}>
+            {offering.title}
+          </Link>
+        </li>
+      ))}
+    </ul>
+  </div>
+);
+
+const renderInterestGroup = (data, includeOtherLink = false) => {
+  const filteredEntries = Object.entries(data).filter(
+    ([, offerings]) => offerings.length > 0
+  );
+
+  if (filteredEntries.length === 0) return null;
+
+  return (
+    <div className='link-group two-col'>
+      {filteredEntries.map(([interest, offerings]) => (
+        <div key={interest}>
+          <h5>{interest}</h5>
+          {renderOfferingList(offerings)}
+          {includeOtherLink && (
+            <Link
+              className='underline_text'
+              to={`/other-interests?interest=${encodeURIComponent(interest)}`}>
+              Options at Other FCPS Schools
+            </Link>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+};
+
 const DynamicSectionRenderer = ({ type, data }) => {
   if (!type || !data || (Array.isArray(data) && data.length === 0)) return null;
 
   switch (type) {
     case "populate_offerings_outcomes_school":
+      if (!Array.isArray(data)) return null;
       return (
-        <div className='outcome-offering-list'>
+        <div className='link-group'>
           <ul className='button-list'>
             {data.map((offering) => (
               <li key={offering.id || offering.slug}>
-                <Link className='btn' to={`/offering/${offering.slug}`}>
+                <Link className='button' to={`/program/${offering.slug}`}>
                   {offering.title}
                 </Link>
               </li>
@@ -20,72 +61,15 @@ const DynamicSectionRenderer = ({ type, data }) => {
       );
 
     case "populate_offerings_outcomes_interest_school":
-      return (
-        <div className='interest-group'>
-          {Object.entries(data).map(([interest, offerings]) => (
-            <div key={interest}>
-              <h5>{interest}</h5>
-              {offerings.length === 0 ? (
-                <p className='no-programs-message'>
-                  No programs were found for this interest at this school.
-                </p>
-              ) : (
-                <>
-                  <ul className='list-disc list-inside'>
-                    {offerings.map((offering) => (
-                      <li key={offering.id || offering.slug}>
-                        <Link className='btn' to={`/offering/${offering.slug}`}>
-                          {offering.title}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                  <Link
-                    className='underline_text'
-                    to={`/other-interests?interest=${encodeURIComponent(
-                      interest
-                    )}`}>
-                    Options at Other FCPS Schools
-                  </Link>
-                </>
-              )}
-            </div>
-          ))}
-        </div>
-      );
+      return renderInterestGroup(data, true);
 
     case "populate_offerings_technical_interests_school":
-      return (
-        <div className='interest-group'>
-          {Object.entries(data).map(([interest, offerings]) => (
-            <div key={interest}>
-              <h5>{interest}</h5>
-              {offerings.length === 0 ? (
-                <p className='no-programs-message'>
-                  No programs were found for this interest at this school.
-                </p>
-              ) : (
-                <>
-                  <ul className='list-disc list-inside'>
-                    {offerings.map((offering) => (
-                      <li key={offering.id || offering.slug}>
-                        <Link className='btn' to={`/offering/${offering.slug}`}>
-                          {offering.title}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </>
-              )}
-            </div>
-          ))}
-        </div>
-      );
+      return renderInterestGroup(data);
 
     case "populate_external_school_link":
       return (
         <a
-          className='btn school-link'
+          className='button center school-link'
           href={data}
           target='_blank'
           rel='noopener noreferrer'>

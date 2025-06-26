@@ -4,6 +4,7 @@
 
 // base
 @import "./base/reset";
+@import "./base/base";
 @import "./base/typography";
 @import "./base/ui";
 
@@ -12,16 +13,14 @@
 @import "./layout/page-header";
 
 //components
-@import "components";
+@import "./components/nav-bar";
 @import "./components/bubble-btn";
 @import "./components/school-select";
-@import "./components/nav-bar";
 
 // pages
 @import "./pages/home";
-@import "./pages/basics";
 @import "./pages/outcomes";
 @import "./pages/single-outcome";
-@import "./pages/single-offering";
+@import "./pages/single-program";
 @import "./pages/other-options";
 @import "./pages/not-found";

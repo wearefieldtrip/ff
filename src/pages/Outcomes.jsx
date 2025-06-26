@@ -7,67 +7,70 @@ import { trackEvent } from "../utils/ga";
 function Outcomes() {
   const { setPageMeta } = usePage();
   const { userFlow, setUserFlow } = useUserFlow();
+  const { allOutcomes = [], selectedLevel, selectedOutcome } = userFlow;
 
-  // Filter outcomes based on selected level
   const availableOutcomes = useMemo(() => {
-    return (userFlow.allOutcomes || []).filter((outcome) =>
-      outcome.level?.includes(userFlow.selectedLevel)
-    );
-  }, [userFlow.allOutcomes, userFlow.selectedLevel]);
+    return allOutcomes
+      .filter((outcome) => outcome.level?.includes(selectedLevel))
+      .sort((a, b) => {
+        const orderA = typeof a.order === "number" ? a.order : Infinity;
+        const orderB = typeof b.order === "number" ? b.order : Infinity;
+        return orderA - orderB;
+      });
+  }, [allOutcomes, selectedLevel]);
 
   useEffect(() => {
     setPageMeta({
-      nextPage: userFlow.selectedOutcome
-        ? `/outcome/${userFlow.selectedOutcome.slug}`
-        : null,
+      nextPage: selectedOutcome ? `/outcome/${selectedOutcome.slug}` : null,
       showNext: true,
-      canProceed: !!userFlow.selectedOutcome,
+      canProceed: !!selectedOutcome,
       hideComponent: false,
     });
-  }, [userFlow.selectedOutcome, setPageMeta]);
-
-  const handleSelect = (outcome) => {
-    const isSame = userFlow.selectedOutcome?.title === outcome.title;
-
-    setUserFlow((prev) => ({
-      ...prev,
-      selectedOutcome: isSame ? null : outcome,
-    }));
-  };
+  }, [selectedOutcome, setPageMeta]);
 
   useEffect(() => {
-    if (userFlow.selectedOutcome) {
+    if (selectedOutcome) {
       trackEvent({
         action: "select_outcome",
         category: "User Engagement",
         params: {
-          selected_outcome: userFlow.selectedOutcome.title,
+          selected_outcome: selectedOutcome.title,
         },
       });
     }
-  }, [userFlow.selectedOutcome]);
+  }, [selectedOutcome]);
+
+  const handleSelect = (outcome) => {
+    setUserFlow((prev) => ({
+      ...prev,
+      selectedOutcome:
+        selectedOutcome?.title === outcome.title ? null : outcome,
+    }));
+  };
 
   return (
-    <div className='page-outcomes page'>
+    <div className='page page-outcomes'>
       <div className='content-wrapper medium'>
         <div className='intro'>
           <h1>What's most important to you?</h1>
           <p>You can always come back and select another option.</p>
         </div>
-        <div className='button-group'>
-          {availableOutcomes.map((outcome) => (
-            <BubbleBtn
-              key={outcome.id}
-              label={outcome.title}
-              size='large'
-              isActive={userFlow.selectedOutcome?.title === outcome.title}
-              disabled={
-                !!userFlow.selectedOutcome &&
-                userFlow.selectedOutcome.title !== outcome.title
-              }
-              onClick={() => handleSelect(outcome)}
-            />
-          ))}
+        <div className='bubble-btn-group three'>
+          {availableOutcomes.map((outcome) => {
+            const isActive = selectedOutcome?.title === outcome.title;
+            const isDisabled = !!selectedOutcome && !isActive;
+
+            return (
+              <BubbleBtn
+                key={outcome.id}
+                label={outcome.title}
+                size='large'
+                isActive={isActive}
+                disabled={isDisabled}
+                onClick={() => handleSelect(outcome)}
+              />
+            );
+          })}
         </div>
       </div>
     </div>

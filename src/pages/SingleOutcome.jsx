@@ -1,134 +1,139 @@
+import { useEffect, useState, useCallback } from "react";
+import { useParams } from "react-router-dom";
+import ReactMarkdown from "react-markdown";
 import { useUserFlow } from "../context/UserFlowContext";
 import { usePage } from "../context/PageContext";
 import PageHeader from "../components/ui/PageHeader";
-import { useEffect, useState } from "react";
-import DynamicSectionRenderer from "../components/data/DynamicSectionRenderer";
-import ReactMarkdown from "react-markdown";
 import SmartLink from "../components/ui/SmartLink";
-import { useParams } from "react-router-dom";
+import DynamicSectionRenderer from "../components/data/DynamicSectionRenderer";
+
+const MarkdownParagraph = ({ content }) => (
+  <ReactMarkdown>{content}</ReactMarkdown>
+);
+
+const offeringFilter = (offerings, filters) =>
+  offerings.filter((offering) =>
+    Object.entries(filters).every(([key, value]) =>
+      Array.isArray(offering[key])
+        ? offering[key]?.includes(value)
+        : offering[key] === value
+    )
+  );
+
+const useOutcomeData = ({
+  selectedOutcome,
+  selectedSchool,
+  selectedInterests,
+  allOfferings,
+}) => {
+  const [dynamicSectionData, setDynamicSectionData] = useState({});
+
+  const fetchDataForSection = useCallback(
+    (key, dynamicType) => {
+      const schoolName = selectedSchool?.name;
+      const outcomeName = selectedOutcome?.title;
+
+      if (!schoolName || !outcomeName) return;
+
+      let data;
+
+      switch (dynamicType) {
+        case "populate_offerings_outcomes_school":
+          data = offeringFilter(allOfferings, {
+            associated_schools: schoolName,
+            associated_outcomes: outcomeName,
+          }).filter(
+            (o) =>
+              !o.associated_interests || o.associated_interests.length === 0
+          );
+          break;
+
+        case "populate_offerings_outcomes_interest_school":
+          data = {};
+          for (const interest of selectedInterests || []) {
+            data[interest] = offeringFilter(allOfferings, {
+              associated_schools: schoolName,
+              associated_outcomes: outcomeName,
+              associated_interests: interest,
+            }).filter((o) => !o.is_technical);
+          }
+          break;
+
+        case "populate_offerings_technical_interests_school":
+          data = {};
+          for (const interest of selectedInterests || []) {
+            data[interest] = offeringFilter(allOfferings, {
+              associated_schools: schoolName,
+              associated_outcomes: outcomeName,
+              associated_interests: interest,
+              is_technical: true,
+            });
+          }
+          break;
+
+        case "populate_external_school_link":
+          data = selectedSchool?.url;
+          break;
+
+        default:
+          return;
+      }
+
+      setDynamicSectionData((prev) => ({ ...prev, [key]: data }));
+    },
+    [selectedSchool, selectedOutcome, selectedInterests, allOfferings]
+  );
+
+  return { dynamicSectionData, fetchDataForSection };
+};
+
+const Section = ({ index, content, dynamicType, dynamicData, buttons }) => {
+  const hasContent = !!content?.trim();
+  const hasDynamicData = Array.isArray(dynamicData)
+    ? dynamicData.length > 0
+    : typeof dynamicData === "object"
+    ? Object.keys(dynamicData || {}).length > 0
+    : !!dynamicData;
+
+  if (!hasContent && !hasDynamicData) return null;
+
+  return (
+    <section key={index}>
+      {hasContent && <MarkdownParagraph content={content} />}
+      <DynamicSectionRenderer type={dynamicType} data={dynamicData} />
+      {buttons.length > 0 && (
+        <div className='button-group mt-4'>
+          {buttons.map(({ text, link, style }, idx) => (
+            <SmartLink key={idx} to={link} className={style}>
+              {text}
+            </SmartLink>
+          ))}
+        </div>
+      )}
+    </section>
+  );
+};
 
 function SingleOutcome() {
   const { userFlow, setUserFlow } = useUserFlow();
   const { setPageMeta } = usePage();
-  const selectedOutcome = userFlow.selectedOutcome;
   const { slug } = useParams();
-
-  function MarkdownParagraph({ content }) {
-    return <ReactMarkdown>{content}</ReactMarkdown>;
-  }
-
-  const [dynamicSectionData, setDynamicSectionData] = useState({});
-
-  const fetchOfferingsBySchoolAndOutcome = (schoolName, outcomeName) => {
-    return userFlow.allOfferings.filter(
-      (offering) =>
-        offering.associated_schools?.includes(schoolName) &&
-        offering.associated_outcomes?.includes(outcomeName) &&
-        (!offering.associated_interests ||
-          offering.associated_interests.length === 0)
-    );
-  };
-
-  const fetchOfferingsBySchoolOutcomeInterest = (
-    schoolName,
-    outcomeName,
-    interest
-  ) => {
-    return userFlow.allOfferings.filter(
-      (offering) =>
-        !offering.is_magnet &&
-        !offering.is_technical &&
-        offering.associated_schools?.includes(schoolName) &&
-        offering.associated_outcomes?.includes(outcomeName) &&
-        offering.associated_interests?.includes(interest)
-    );
-  };
-
-  const fetchOfferingsBySchoolOutcomeInterestTechnical = (
-    schoolName,
-    outcomeName,
-    interest
-  ) => {
-    return userFlow.allOfferings.filter(
-      (offering) =>
-        offering.is_magnet &&
-        offering.is_technical &&
-        offering.associated_schools?.includes(schoolName) &&
-        offering.associated_outcomes?.includes(outcomeName) &&
-        offering.associated_interests?.includes(interest)
-    );
-  };
-
-  const fetchDataForSection = (key, dynamicType) => {
-    const schoolName = userFlow.selectedSchool?.name;
-    const outcomeName = userFlow.selectedOutcome?.title;
-
-    switch (dynamicType) {
-      case "populate_offerings_outcomes_school": {
-        const offerings = fetchOfferingsBySchoolAndOutcome(
-          schoolName,
-          outcomeName
-        );
-        setDynamicSectionData((prev) => ({ ...prev, [key]: offerings }));
-        break;
-      }
-
-      case "populate_offerings_outcomes_interest_school": {
-        const interestOfferings = {};
-        for (const interest of userFlow.selectedInterests || []) {
-          interestOfferings[interest] = fetchOfferingsBySchoolOutcomeInterest(
-            schoolName,
-            outcomeName,
-            interest
-          );
-        }
-        setDynamicSectionData((prev) => ({
-          ...prev,
-          [key]: interestOfferings,
-        }));
-        break;
-      }
-
-      case "populate_offerings_technical_interests_school": {
-        const interestOfferingsTechnical = {};
-        for (const interest of userFlow.selectedInterests || []) {
-          interestOfferingsTechnical[interest] =
-            fetchOfferingsBySchoolOutcomeInterestTechnical(
-              schoolName,
-              outcomeName,
-              interest
-            );
-        }
-        setDynamicSectionData((prev) => ({
-          ...prev,
-          [key]: interestOfferingsTechnical,
-        }));
-        break;
-      }
-
-      case "populate_external_school_link": {
-        const schoolLink = userFlow.selectedSchool?.url;
-        setDynamicSectionData((prev) => ({ ...prev, [key]: schoolLink }));
-        break;
-      }
-
-      default:
-        break;
-    }
-  };
+  const selectedOutcome = userFlow.selectedOutcome;
+  const { dynamicSectionData, fetchDataForSection } = useOutcomeData({
+    selectedOutcome,
+    selectedSchool: userFlow.selectedSchool,
+    selectedInterests: userFlow.selectedInterests,
+    allOfferings: userFlow.allOfferings,
+  });
 
   useEffect(() => {
     if (slug) {
       const foundOutcome = userFlow.allOutcomes.find((o) => o.slug === slug);
-      if (
-        foundOutcome &&
-        (!userFlow.selectedOutcome || userFlow.selectedOutcome.slug !== slug)
-      ) {
+      if (foundOutcome && (!selectedOutcome || selectedOutcome.slug !== slug)) {
         setUserFlow((prev) => ({ ...prev, selectedOutcome: foundOutcome }));
-        setDynamicSectionData({}); // Reset to avoid stale data
       }
     }
-  }, [slug, userFlow.allOutcomes]);
+  }, [slug, userFlow.allOutcomes, selectedOutcome, setUserFlow]);
 
   useEffect(() => {
     setPageMeta({
@@ -141,12 +146,12 @@ function SingleOutcome() {
   useEffect(() => {
     if (!selectedOutcome || selectedOutcome.slug !== slug) return;
 
-    const sectionKeys = [1, 2, 3];
-    sectionKeys.forEach((key) => {
-      const dynamicType = selectedOutcome[`section_${key}_dynamic`];
-      if (dynamicType) fetchDataForSection(key, dynamicType);
+    [1, 2, 3].forEach((i) => {
+      const dynamicType = selectedOutcome[`section_${i}_dynamic`];
+      if (dynamicType) fetchDataForSection(i, dynamicType);
     });
-  }, [selectedOutcome, slug]);
+  }, [selectedOutcome, slug, fetchDataForSection]);
+
   return (
     <div className='page-single-outcome page'>
       <PageHeader
@@ -158,7 +163,7 @@ function SingleOutcome() {
         {[1, 2, 3, 4].map((i) => {
           const content = selectedOutcome[`section_${i}_content`];
           const dynamicType = selectedOutcome[`section_${i}_dynamic`];
-          const dynamicData = dynamicSectionData[i];
+          const dynamicData = dynamicSectionData[i] || {};
 
           const buttons = [];
           for (let b = 1; b <= 5; b++) {
@@ -170,34 +175,15 @@ function SingleOutcome() {
             buttons.push({ text, link, style });
           }
 
-          const hasContent = !!content?.trim();
-          const hasDynamicData = Array.isArray(dynamicData)
-            ? dynamicData.length > 0
-            : typeof dynamicData === "object"
-            ? Object.keys(dynamicData || {}).length > 0
-            : !!dynamicData;
-          const hasButtons = buttons.length > 0;
-
-          if (!hasContent && !hasDynamicData) return null;
-
           return (
-            <section key={i}>
-              {hasContent && (
-                <p className='section-intro-text'>
-                  {<MarkdownParagraph content={content} />}
-                </p>
-              )}
-              <DynamicSectionRenderer type={dynamicType} data={dynamicData} />
-              {hasButtons && (
-                <div className='button-group mt-4'>
-                  {buttons.map(({ text, link, style }, idx) => (
-                    <SmartLink key={idx} to={link} className={style}>
-                      {text}
-                    </SmartLink>
-                  ))}
-                </div>
-              )}
-            </section>
+            <Section
+              key={i}
+              index={i}
+              content={content}
+              dynamicType={dynamicType}
+              dynamicData={dynamicData}
+              buttons={buttons}
+            />
           );
         })}
       </div>

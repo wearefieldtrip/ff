@@ -4,7 +4,7 @@ import { useUserFlow } from "../context/UserFlowContext";
 import { usePage } from "../context/PageContext";
 import PageHeader from "../components/ui/PageHeader";
 
-function SingleOffering() {
+function SingleProgram() {
   const { slug } = useParams();
   const { userFlow } = useUserFlow();
   const { setPageMeta } = usePage();
@@ -72,7 +72,7 @@ function SingleOffering() {
             ) : (
               <div className='image'>
                 <img
-                  src='/public/images/default.webp'
+                  src='/images/default.webp'
                   alt='A student in a gray hoodie sits at a desk with a laptop in a classroom, with other students working at desks in the background.'
                 />
               </div>
@@ -80,7 +80,7 @@ function SingleOffering() {
           </div>
           {offering.url && (
             <a
-              className='offering-url btn aqua'
+              className='offering-url button aqua'
               href={offering.url}
               target='_blank'
               rel='noopener noreferrer'>
@@ -93,4 +93,4 @@ function SingleOffering() {
   );
 }
 
-export default SingleOffering;
+export default SingleProgram;

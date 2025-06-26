@@ -1,27 +1,35 @@
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { usePage } from "../context/PageContext";
+import useGoogleTranslate from "../hooks/useGoogleTranslate";
 import fcpsLogo from "../assets/images/fcps-logo.svg";
 import homeHero from "../assets/images/home-hero.jpeg";
 import ffLogo from "../assets/images/fayette-forward-logo.svg";
-import { Link } from "react-router-dom";
-import { useEffect } from "react";
-import { usePage } from "../context/PageContext";
 
 function Home() {
   const { setPageMeta } = usePage();
 
   useEffect(() => {
     setPageMeta({ hideComponent: true });
-  }, []);
+  }, [setPageMeta]);
+
+  useGoogleTranslate();
 
   return (
-    <div className='page-home'>
-      <div className='col-group-1'>
+    <div className='page page-home'>
+      <div className='top'>
         <div className='logo'>
           <img src={fcpsLogo} alt='FCPS Logo' />
         </div>
+        <div
+          id='google_translate_element'
+          style={{
+            position: "static",
+          }}></div>
       </div>
-      <div className='col-group-2'>
-        <div className='col col-left'>
-          <h1 className='large-heading-one'>
+      <div className='bottom'>
+        <div className='col-left'>
+          <h1>
             Fayette Forward offers learning options where students choose their
             path and pace.
           </h1>
@@ -31,47 +39,37 @@ function Home() {
             alt='A graduate in a maroon cap and gown celebrates with a raised arm at a high school graduation ceremony, with a crowd and stage in the background.'
           />
         </div>
-        <div className='col col-right'>
+        <div className='col-right'>
           <img className='ff-logo' src={ffLogo} alt='Fayette Logo' />
           <p className='explainer'>
             With Fayette Forward at FCPS, students have more opportunities,
             resources, and programs to create their own educational path and
             explore personal dreams.
           </p>
-          <Link to={"/basics"} className='group'>
-            <h3>Explore your options</h3>
+          <Link to={"/basics"} className='button aqua bolded'>
+            Explore your options
             <svg
               xmlns='http://www.w3.org/2000/svg'
-              width='60'
-              height='60'
-              viewBox='0 0 60 60'
+              width='30'
+              height='29'
+              viewBox='0 0 30 29'
               fill='none'>
-              <rect
-                x='59'
-                y='59'
-                width='58'
-                height='58'
-                rx='29'
-                transform='rotate(180 59 59)'
-                stroke='white'
-                strokeWidth='2'
-              />
               <path
-                d='M31.27 45.13C31.27 36.53 38.24 29.56 46.84 29.56'
-                stroke='white'
-                strokeWidth='2'
+                d='M15.7764 0C15.7764 7.85628 22.1436 14.2235 29.9999 14.2235'
+                stroke='#223970'
+                strokeWidth='2.5'
                 strokeMiterlimit='10'
               />
               <path
-                d='M46.84 29.57C38.24 29.57 31.27 22.6 31.27 14'
-                stroke='white'
-                strokeWidth='2'
+                d='M29.9999 14.2144C22.1436 14.2144 15.7764 20.5816 15.7764 28.4379'
+                stroke='#223970'
+                strokeWidth='2.5'
                 strokeMiterlimit='10'
               />
               <path
-                d='M46.84 29.57H14'
-                stroke='white'
-                strokeWidth='2'
+                d='M30 14.2144L0 14.2144'
+                stroke='#223970'
+                strokeWidth='2.5'
                 strokeMiterlimit='10'
               />
             </svg>
@@ -81,4 +79,5 @@ function Home() {
     </div>
   );
 }
+
 export default Home;

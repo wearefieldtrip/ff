@@ -7,11 +7,13 @@ const usePageTracking = () => {
   const location = useLocation();
 
   useEffect(() => {
-    // Inject the GA script only once
+    if (import.meta.env.MODE !== "production") return;
+
     if (!window.gtag) {
+      // Load GA script
       const script1 = document.createElement("script");
       script1.async = true;
-      script1.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
+      script1.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}&l=dataLayer`;
       document.head.appendChild(script1);
 
       const script2 = document.createElement("script");
@@ -19,13 +21,18 @@ const usePageTracking = () => {
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', '${GA_MEASUREMENT_ID}', { send_page_view: false });
+        gtag('config', '${GA_MEASUREMENT_ID}', { 
+          send_page_view: false,
+          debug_mode: false 
+        });
       `;
       document.head.appendChild(script2);
     }
   }, []);
 
   useEffect(() => {
+    if (import.meta.env.MODE !== "production") return;
+
     if (window.gtag) {
       window.gtag("event", "page_view", {
         page_path: location.pathname + location.search,

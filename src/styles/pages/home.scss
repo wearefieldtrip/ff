@@ -1,47 +1,93 @@
 .page-home {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-
-  .col-group-1 {
+  @include breakpoint(desktop) {
     display: flex;
-    flex-direction: row;
-    flex: 1;
-    flex-grow: 0;
-    justify-content: space-between;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .top {
+    display: flex;
+    padding: 16px;
+    gap: 16px;
+    border-bottom: 2px solid $color-white;
+    align-items: center;
+
+    @include breakpoint(desktop) {
+      padding: 0;
+      justify-content: space-between;
+    }
 
     .logo {
-      img {
-        padding: 20px 8px;
-        margin: auto;
-        width: 125px;
-        box-sizing: content-box;
+      flex: 1;
 
-        @include breakpoint(tablet) {
-          width: 200px;
-          padding: 20px;
+      @include breakpoint(desktop) {
+        padding: 24px;
+        flex: none;
+        padding-right: 24px;
+        border-right: 2px solid $color-white;
+      }
+    }
+
+    #google_translate_element {
+      flex: 1.5;
+      justify-items: flex-end;
+
+      @include breakpoint(desktop) {
+        flex: none;
+        padding: 24px;
+      }
+
+      .goog-te-gadget {
+        font-size: 0px !important;
+
+        img,
+        a {
+          display: none;
+        }
+
+        .goog-te-combo {
+          width: 100%;
+          appearance: none;
+          background-color: transparent;
+          color: $color-white;
+          border-radius: 30px;
+          border: 2px solid $color-white;
+          font-size: 12px;
+          padding: 8px 12px;
+          background-image: url("/images/icons/icon-select-arrow-white.svg");
+          background-size: 12px;
+          background-repeat: no-repeat;
+          background-position: right 10px center;
+          cursor: pointer;
           margin: 0;
-          border-right: 2px solid $color-white;
+
+          @include breakpoint(tablet) {
+            width: fit-content;
+          }
+
+          @include breakpoint(desktop) {
+            font-size: 14px;
+            padding: 12px 18px;
+            background-size: 18px;
+            background-position: right 20px center;
+          }
         }
       }
     }
   }
-
-  .col-group-2 {
-    border-top: 2px solid $color-white;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-
-    @include breakpoint(tablet) {
+  .bottom {
+    @include breakpoint(desktop) {
+      display: flex;
       flex-direction: row;
+      flex: 1;
     }
 
     .col-left {
-      border-bottom: 2px solid $color-white;
-      flex: 1;
+      padding: 32px 24px;
 
-      @include breakpoint(tablet) {
+      @include breakpoint(desktop) {
+        padding: 0;
+        border-right: 2px solid $color-white;
         flex: 2;
         border-bottom: 0;
         display: flex;
@@ -49,9 +95,7 @@
       }
 
       h1 {
-        padding: 24px;
-
-        @include breakpoint(tablet) {
+        @include breakpoint(desktop) {
           display: flex;
           flex: 1;
           align-items: center;
@@ -64,7 +108,7 @@
       .hero-image {
         display: none;
 
-        @include breakpoint(tablet) {
+        @include breakpoint(desktop) {
           display: inline-flex;
           max-height: 43vh;
           object-fit: cover;
@@ -76,22 +120,25 @@
     }
 
     .col-right {
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
+      border-top: 2px solid $color-white;
+      padding: 32px 24px;
 
-      @include breakpoint(tablet) {
-        flex: 1.25;
-        display: flex;
-        border-left: 2px solid $color-white;
-        flex-direction: column;
+      @include breakpoint(desktop) {
         padding: 0;
+        flex: 1;
+        border-top: 0;
       }
 
       .ff-logo {
-        display: none;
+        width: 80%;
+        margin: 0 auto 32px;
+        max-width: 400px;
 
-        @include breakpoint(tablet) {
+        @include breakpoint(desktop) {
+          max-width: none;
+          width: 100%;
+          max-width: none;
+          margin: 0;
           display: flex;
           padding: 40px 54px;
           border-bottom: 2px solid $color-white;
@@ -99,32 +146,33 @@
       }
 
       .explainer {
-        font-size: 22px;
-        width: 90%;
-        margin: 36px auto;
+        margin-bottom: 18px;
+        font-size: 18px;
+
+        @include breakpoint(desktop) {
+          padding: 36px;
+          font-size: 22px;
+        }
       }
 
-      .group {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+      .button {
         width: 100%;
+        font-size: 20px;
 
-        @include breakpoint(tablet) {
-          flex: 2;
-          padding: 46px;
-          align-items: end;
-          flex-grow: 0;
-          margin-top: auto;
+        @include breakpoint(desktop) {
+          width: fit-content;
+          margin: 0 36px 36px;
+          display: flex;
+          align-content: center;
+          gap: 16px;
         }
 
         svg {
-          width: 40px;
-          margin-left: 20px;
-          flex-shrink: 0;
+          width: 24px;
+          display: none;
 
-          @include breakpoint(tablet) {
-            width: 60px;
+          @include breakpoint(desktop) {
+            display: block;
           }
         }
       }

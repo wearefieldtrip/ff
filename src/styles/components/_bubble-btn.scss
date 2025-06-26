@@ -1,33 +1,51 @@
+.bubble-btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  justify-content: center;
+
+  @include breakpoint(desktop) {
+    &.three > * {
+      flex: 1 1 calc((100% - 2.5rem) / 3);
+    }
+
+    &.four > * {
+      flex: 1 1 calc(25% - 0.9375rem);
+    }
+
+    &.five > * {
+      flex: 1 1 calc(20% - 1rem);
+    }
+  }
+}
+
 .bubble-btn {
-  font-size: 16px;
-  background-color: $color-white;
-  border-radius: 30px;
-  font-weight: $fw-bold;
   width: 100%;
   min-height: 60px;
   padding: 12px;
+  font-size: 16px;
+  font-weight: $fw-bold;
   color: $color-navy;
-  transition: 0.25s ease-in-out all;
+  background-color: $color-white;
+  border-radius: 30px;
+  transition: all 0.25s ease-in-out;
 
-  @include breakpoint(tablet) {
-    flex: 1 1 calc(25% - 1.5rem);
+  @include breakpoint(desktop) {
     min-height: 80px;
     padding: 16px;
     flex-grow: 0 !important;
   }
 
   &.large {
-    flex: 1 1 calc(33.33% - 1.5rem);
     padding: 36px 28px;
     font-size: 18px;
     font-weight: $fw-medium;
-    width: 100%;
     flex-grow: 1;
 
-    @include breakpoint(tablet) {
+    @include breakpoint(desktop) {
+      padding: 48px 32px;
       font-size: 24px;
       flex-grow: 0;
-      padding: 48px 32px;
     }
   }
 
@@ -42,8 +60,8 @@
   }
 
   span {
-    font-weight: $fw-regular;
     display: block;
     font-size: 14px;
+    font-weight: $fw-regular;
   }
 }

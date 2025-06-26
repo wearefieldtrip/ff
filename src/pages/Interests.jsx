@@ -9,13 +9,20 @@ function Interests() {
   const { setPageMeta } = usePage();
   const { userFlow, setUserFlow } = useUserFlow();
 
-  const availableInterests = (userFlow.allInterests || []).filter(
-    (interest) =>
-      userFlow.selectedSchool &&
-      interest.associated_schools?.includes(userFlow.selectedSchool.name)
-  );
-  const selectedInterests = userFlow.selectedInterests || [];
+  const {
+    allInterests = [],
+    selectedSchool,
+    selectedInterests = [],
+  } = userFlow;
 
+  // Filter interests associated with the selected school
+  const availableInterests = allInterests.filter(
+    (interest) =>
+      selectedSchool?.name &&
+      interest.associated_schools?.includes(selectedSchool.name)
+  );
+
+  // Update page metadata based on selected interests
   useEffect(() => {
     setPageMeta({
       nextPage: "/outcomes",
@@ -25,35 +32,36 @@ function Interests() {
     });
   }, [selectedInterests, setPageMeta]);
 
-  const handleToggleInterest = (interest) => {
-    let updated;
-
-    if (selectedInterests.includes(interest)) {
-      updated = selectedInterests.filter((i) => i !== interest);
-    } else if (selectedInterests.length < 2) {
-      updated = [...selectedInterests, interest];
-    } else {
-      return;
-    }
-
-    setUserFlow((prev) => ({
-      ...prev,
-      selectedInterests: updated,
-    }));
-  };
-
+  // Track analytics when interests change
   useEffect(() => {
-    if (userFlow.selectedInterests.length > 0) {
-      const combinedInterests = userFlow.selectedInterests.join(", ");
+    if (selectedInterests.length > 0) {
       trackEvent({
         action: "select_interests",
         category: "User Engagement",
         params: {
-          selected_interests: combinedInterests,
+          selected_interests: selectedInterests.join(", "),
         },
       });
     }
-  }, [userFlow.selectedInterests]);
+  }, [selectedInterests]);
+
+  // Handle toggling interests
+  const handleToggleInterest = (interest) => {
+    const isAlreadySelected = selectedInterests.includes(interest);
+
+    const updatedInterests = isAlreadySelected
+      ? selectedInterests.filter((i) => i !== interest)
+      : selectedInterests.length < 2
+      ? [...selectedInterests, interest]
+      : selectedInterests;
+
+    if (updatedInterests !== selectedInterests) {
+      setUserFlow((prev) => ({
+        ...prev,
+        selectedInterests: updatedInterests,
+      }));
+    }
+  };
 
   return (
     <div className='page-basics page'>
@@ -62,7 +70,7 @@ function Interests() {
         subtitle='FCPS provides learning options based on your selected interests. Select up to two interests.'
       />
       <div className='content-wrapper large'>
-        <div className='button-group'>
+        <div className='bubble-btn-group four'>
           {availableInterests.map(({ id, title, includes }) => {
             const isActive = selectedInterests.includes(title);
             const isAtLimit = selectedInterests.length >= 2;

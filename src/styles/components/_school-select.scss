@@ -1,4 +1,14 @@
 .school-select {
+  margin-top: 32px;
+
+  @include breakpoint(tablet) {
+    margin-top: 42px;
+  }
+
+  @include breakpoint(desktop) {
+    margin-top: 54px;
+  }
+
   label {
     display: block;
     margin-bottom: 12px;
@@ -9,7 +19,7 @@
     width: 100%;
     appearance: none;
     background-color: $color-white;
-    border-radius: $border-radius;
+    border-radius: 30px;
     margin-bottom: 8px;
     font-size: 16px;
     min-height: 52px;

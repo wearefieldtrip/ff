@@ -40,7 +40,7 @@ function OtherIntersts() {
               <ul className='list-disc list-inside mt-2'>
                 {filteredOfferings.map((offering) => (
                   <li key={offering.id}>
-                    <Link className='btn' to={`/offering/${offering.slug}`}>
+                    <Link className='button' to={`/offering/${offering.slug}`}>
                       {offering.title}
                     </Link>
                   </li>

@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useCallback } from "react";
 import { usePage } from "../context/PageContext";
 import { useUserFlow } from "../context/UserFlowContext";
 import { useInitialData } from "../hooks/useInitialData";
@@ -7,6 +7,8 @@ import PageHeader from "../components/ui/PageHeader";
 import BubbleBtn from "../components/ui/BubbleBtn";
 import { trackEvent } from "../utils/ga";
 
+const gradeLevels = ["Elementary", "Middle", "High"];
+
 function Basics() {
   const { setPageMeta } = usePage();
   const { userFlow, setUserFlow } = useUserFlow();
@@ -14,11 +16,11 @@ function Basics() {
   const selectedGrade = userFlow.selectedLevel;
 
   const filteredSchools = useMemo(() => {
-    if (!userFlow.allSchools || userFlow.allSchools.length === 0) return [];
-    return userFlow.allSchools.filter(
-      (school) => school.level === userFlow.selectedLevel
+    return (
+      userFlow.allSchools?.filter((school) => school.level === selectedGrade) ||
+      []
     );
-  }, [userFlow.allSchools, userFlow.selectedLevel]);
+  }, [userFlow.allSchools, selectedGrade]);
 
   useEffect(() => {
     if (data) {
@@ -30,16 +32,16 @@ function Basics() {
         allInterests: data.interests,
       }));
     }
-  }, [data]);
+  }, [data, setUserFlow]);
 
   useEffect(() => {
-    const hasGrade = !!userFlow.selectedLevel;
-    const hasSchool = !!userFlow.selectedSchool;
+    const hasGrade = Boolean(selectedGrade);
+    const hasSchool = Boolean(userFlow.selectedSchool);
 
     setPageMeta({
       nextPage:
         hasGrade && hasSchool
-          ? userFlow.selectedLevel === "Elementary"
+          ? selectedGrade === "Elementary"
             ? "/outcomes"
             : "/interests"
           : null,
@@ -47,18 +49,19 @@ function Basics() {
       canProceed: hasGrade && hasSchool,
       hideComponent: false,
     });
-  }, [userFlow.selectedLevel, userFlow.selectedSchool, setPageMeta]);
+  }, [selectedGrade, userFlow.selectedSchool, setPageMeta]);
 
-  const handleGradeSelect = (grade) => {
-    trackEvent("select_grade", {
-      grade_level: grade,
-    });
-    setUserFlow((prev) => ({
-      ...prev,
-      selectedLevel: grade,
-      selectedSchool: null,
-    }));
-  };
+  const handleGradeSelect = useCallback(
+    (grade) => {
+      trackEvent("select_grade", { grade_level: grade });
+      setUserFlow((prev) => ({
+        ...prev,
+        selectedLevel: grade,
+        selectedSchool: null,
+      }));
+    },
+    [setUserFlow]
+  );
 
   return (
     <div className='page-basics page'>
@@ -67,22 +70,15 @@ function Basics() {
         subtitle='Innovative options are found at all schools. First, select a grade level. Then, select your neighborhood school to explore.'
       />
       <div className='content-wrapper medium'>
-        <div className='button-group'>
-          <BubbleBtn
-            label='Elementary Schools'
-            isActive={selectedGrade === "Elementary"}
-            onClick={() => handleGradeSelect("Elementary")}
-          />
-          <BubbleBtn
-            label='Middle Schools'
-            isActive={selectedGrade === "Middle"}
-            onClick={() => handleGradeSelect("Middle")}
-          />
-          <BubbleBtn
-            label='High Schools'
-            isActive={selectedGrade === "High"}
-            onClick={() => handleGradeSelect("High")}
-          />
+        <div className='bubble-btn-group three'>
+          {gradeLevels.map((label) => (
+            <BubbleBtn
+              key={label}
+              label={`${label} Schools`}
+              isActive={selectedGrade === label}
+              onClick={() => handleGradeSelect(label)}
+            />
+          ))}
         </div>
         {selectedGrade && <SchoolSelect schools={filteredSchools} />}
       </div>
