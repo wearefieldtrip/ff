@@ -11,9 +11,9 @@ const AppLayout = () => {
   return (
     <PageProvider>
       <UserFlowProvider>
-        <ScrollToTop />
         <div className='app-frame'>
           <div className='app-content'>
+            <ScrollToTop />
             <Outlet />
           </div>
           <NavBar />
