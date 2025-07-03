@@ -12,7 +12,6 @@
   label {
     display: block;
     margin-bottom: 12px;
-    font-size: 20px;
   }
 
   select {
@@ -28,6 +27,7 @@
     background-image: url("/images/icons/icon-select-arrow.svg");
     background-repeat: no-repeat;
     background-position: right 20px center;
+    font-weight: $fw-medium;
 
     @include breakpoint(tablet) {
       font-size: 18px;

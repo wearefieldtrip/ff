@@ -53,7 +53,10 @@ function Basics() {
 
   const handleGradeSelect = useCallback(
     (grade) => {
-      trackEvent("select_grade", { grade_level: grade });
+      trackEvent({
+        action: "select_grade",
+        grade_level: grade,
+      });
       setUserFlow((prev) => ({
         ...prev,
         selectedLevel: grade,

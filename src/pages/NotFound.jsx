@@ -22,7 +22,7 @@ function NotFound() {
           <span className='error404'>404</span>
         </div>
         <div className='col'>
-          <h1>Thie page does not exist</h1>
+          <h1>This page does not exist</h1>
           <Link to='/' className='btn'>
             Go to home screen
           </Link>

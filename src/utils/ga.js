@@ -1,5 +1,8 @@
-export const trackEvent = ({ action, ...rest }) => {
-  if (typeof window.gtag !== "undefined") {
-    window.gtag("event", action, rest);
+export const trackEvent = ({ action, ...params }) => {
+  if (typeof window.gtag === "function") {
+    window.gtag("event", action, params);
+    console.log(`[Analytics] ${action}`, params);
+  } else {
+    console.warn("GA not ready:", action, params);
   }
 };

@@ -10,8 +10,12 @@
   }
 
   .content-wrapper {
+    display: flex;
+    flex-direction: column-reverse;
+
     @include breakpoint(desktop) {
       display: flex;
+      flex-direction: row;
       box-sizing: content-box;
       margin: 0 auto;
       flex: 1;
@@ -22,7 +26,6 @@
 
       @include breakpoint(desktop) {
         width: 60%;
-        border-right: 2px solid $color-white;
         padding: 52px;
       }
     }
@@ -36,7 +39,11 @@
 
       .media {
         margin-bottom: 36px;
+        border-bottom: 2px solid $color-white;
+
         @include breakpoint(desktop) {
+          border-bottom: none;
+          border-left: 2px solid $color-white;
           border-bottom: 2px solid $color-white;
         }
 

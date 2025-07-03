@@ -3,7 +3,12 @@
   top: 0;
   left: 0;
   width: calc(100vw - 28px);
-  height: calc(100vh - 28px);
+  height: calc(100vh - 28px); // fallback
+
+  @supports (height: 100svh) {
+    height: calc(100svh - 28px);
+  }
+
   margin: 14px;
   border: 2px solid white;
   box-sizing: border-box;
@@ -13,6 +18,11 @@
   @include breakpoint(desktop) {
     width: calc(100vw - 64px);
     height: calc(100vh - 64px);
+
+    @supports (height: 100svh) {
+      height: calc(100svh - 64px);
+    }
+
     margin: 32px;
   }
 }
@@ -38,7 +48,11 @@
   }
 
   &.large {
-    width: 75%;
+    width: 90%;
+
+    @include breakpoint(desktop) {
+      width: 75%;
+    }
   }
 
   &.full {

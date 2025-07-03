@@ -3,6 +3,7 @@ import { usePage } from "../context/PageContext";
 import { useUserFlow } from "../context/UserFlowContext";
 import BubbleBtn from "../components/ui/BubbleBtn";
 import { trackEvent } from "../utils/ga";
+import PageHeader from "../components/ui/PageHeader";
 
 function Outcomes() {
   const { setPageMeta } = usePage();
@@ -32,10 +33,7 @@ function Outcomes() {
     if (selectedOutcome) {
       trackEvent({
         action: "select_outcome",
-        category: "User Engagement",
-        params: {
-          selected_outcome: selectedOutcome.title,
-        },
+        selected_outcome: selectedOutcome.title,
       });
     }
   }, [selectedOutcome]);
@@ -50,11 +48,12 @@ function Outcomes() {
 
   return (
     <div className='page page-outcomes'>
+      <PageHeader
+        title="What's most important to you?"
+        subtitle='You can always come back and select another option.'
+        flip={false}
+      />
       <div className='content-wrapper medium'>
-        <div className='intro'>
-          <h1>What's most important to you?</h1>
-          <p>You can always come back and select another option.</p>
-        </div>
         <div className='bubble-btn-group three'>
           {availableOutcomes.map((outcome) => {
             const isActive = selectedOutcome?.title === outcome.title;

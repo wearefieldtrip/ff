@@ -28,10 +28,10 @@ function OtherOptions() {
             to. Learn more about these below.
           </p>
           {filteredOfferings.length > 0 ? (
-            <ul className='list-disc list-inside mt-4'>
+            <ul className='button-list'>
               {filteredOfferings.map((offering) => (
                 <li key={offering.id}>
-                  <Link className='btn' to={`/offering/${offering.slug}`}>
+                  <Link className='button' to={`/program/${offering.slug}`}>
                     {offering.title}
                   </Link>
                 </li>

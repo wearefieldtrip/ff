@@ -34,13 +34,13 @@ function OtherIntersts() {
             programs at other schools based on your interests that you can apply
             to. Learn more about these below.
           </p>
-          <div className='mt-6'>
-            <h2>{interestName}</h2>
+          <div>
+            <span className='label'>{interestName}</span>
             {filteredOfferings.length > 0 ? (
-              <ul className='list-disc list-inside mt-2'>
+              <ul className='button-list'>
                 {filteredOfferings.map((offering) => (
                   <li key={offering.id}>
-                    <Link className='button' to={`/offering/${offering.slug}`}>
+                    <Link className='button' to={`/program/${offering.slug}`}>
                       {offering.title}
                     </Link>
                   </li>

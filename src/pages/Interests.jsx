@@ -32,19 +32,6 @@ function Interests() {
     });
   }, [selectedInterests, setPageMeta]);
 
-  // Track analytics when interests change
-  useEffect(() => {
-    if (selectedInterests.length > 0) {
-      trackEvent({
-        action: "select_interests",
-        category: "User Engagement",
-        params: {
-          selected_interests: selectedInterests.join(", "),
-        },
-      });
-    }
-  }, [selectedInterests]);
-
   // Handle toggling interests
   const handleToggleInterest = (interest) => {
     const isAlreadySelected = selectedInterests.includes(interest);
@@ -54,6 +41,13 @@ function Interests() {
       : selectedInterests.length < 2
       ? [...selectedInterests, interest]
       : selectedInterests;
+
+    if (!isAlreadySelected && selectedInterests.length < 2) {
+      trackEvent({
+        action: "select_interest",
+        interest_selected: interest,
+      });
+    }
 
     if (updatedInterests !== selectedInterests) {
       setUserFlow((prev) => ({

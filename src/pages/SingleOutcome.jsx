@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import { useUserFlow } from "../context/UserFlowContext";
 import { usePage } from "../context/PageContext";
@@ -99,7 +99,29 @@ const Section = ({ index, content, dynamicType, dynamicData, buttons }) => {
 
   return (
     <section key={index}>
-      {hasContent && <MarkdownParagraph content={content} />}
+      {hasContent && (
+        <ReactMarkdown
+          components={{
+            a: ({ href, children, ...props }) => {
+              const isInternal = href.startsWith("/");
+              return isInternal ? (
+                <Link to={href} {...props}>
+                  {children}
+                </Link>
+              ) : (
+                <a
+                  href={href}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  {...props}>
+                  {children}
+                </a>
+              );
+            },
+          }}>
+          {content}
+        </ReactMarkdown>
+      )}
       <DynamicSectionRenderer type={dynamicType} data={dynamicData} />
       {buttons.length > 0 && (
         <div className='button-group mt-4'>
@@ -159,7 +181,7 @@ function SingleOutcome() {
         title={selectedOutcome.title}
         subtitle="What's most important to you?"
       />
-      <div className='content-wrapper large'>
+      <div className='content-wrapper full'>
         {[1, 2, 3, 4].map((i) => {
           const content = selectedOutcome[`section_${i}_content`];
           const dynamicType = selectedOutcome[`section_${i}_dynamic`];

@@ -41,6 +41,7 @@ p {
 
 .label {
   font-size: clamp(1.125rem, 1.0357rem + 0.2857vw, 1.25rem);
+  font-weight: $fw-semi-bold;
 }
 
 .text-block {
@@ -51,7 +52,7 @@ p {
   h5 {
     margin-bottom: 20px;
   }
-  margin-bottom: 24px;
+  margin-bottom: 54px;
 
   &:last-of-type {
     margin-bottom: 0;

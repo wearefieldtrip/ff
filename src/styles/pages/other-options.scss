@@ -6,27 +6,44 @@
         margin: 0 auto 24px;
         text-align: center;
       }
-      h2 {
+      .label {
         text-align: center;
-        margin-bottom: 40px;
+        display: block;
+        margin-bottom: 16px;
       }
       ul {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 20px;
+        @include breakpoint(desktop) {
+          display: flex;
+          gap: 1.25rem;
+          flex-wrap: wrap;
+          justify-content: center;
+        }
 
         li {
-          flex: 1 1 calc((100% - 3 * 20px) / 4); /* 5 items, 4 gaps */
-          max-width: calc((100% - 3 * 20px) / 4);
-          align-self: stretch;
+          margin-bottom: 20px;
+
+          &:last-of-type {
+            margin-bottom: 0;
+          }
+
+          @include breakpoint(desktop) {
+            margin-bottom: 0;
+            flex: 1 1 calc(25% - 0.9375rem);
+            max-width: calc((100% - 60px) / 4);
+            align-self: stretch;
+          }
 
           a {
             width: 100%;
-            display: inline-flex;
-            height: 100%;
-            justify-content: center;
-            align-items: center;
+            @include breakpoint(desktop) {
+              align-self: stretch;
+              display: inline-flex;
+              align-items: center;
+              text-align: center;
+              justify-content: center;
+              width: 100%;
+              height: 100%;
+            }
           }
         }
       }

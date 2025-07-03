@@ -10,7 +10,8 @@ function SchoolSelect({ schools = [] }) {
       (school) => school.name === selectedSchoolId
     );
 
-    trackEvent("select_school", {
+    trackEvent({
+      action: "select_school",
       school_name: selectedSchool.name,
     });
 
@@ -30,7 +31,7 @@ function SchoolSelect({ schools = [] }) {
 
   return (
     <div className='school-select'>
-      <label htmlFor='school-select'>
+      <label className='label' htmlFor='school-select'>
         Select your neighborhood {userFlow.selectedLevel?.toLowerCase()} school
       </label>
       <select

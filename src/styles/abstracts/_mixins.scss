@@ -8,7 +8,7 @@
       @content;
     }
   } @else if $point == desktop {
-    @media (min-width: 1200px) {
+    @media (min-width: 1080px) {
       @content;
     }
   }
