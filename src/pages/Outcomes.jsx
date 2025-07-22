@@ -33,7 +33,7 @@ function Outcomes() {
     if (selectedOutcome) {
       trackEvent({
         action: "select_outcome",
-        selected_outcome: selectedOutcome.title,
+        single_outcome_selected: selectedOutcome.title,
       });
     }
   }, [selectedOutcome]);
@@ -57,7 +57,6 @@ function Outcomes() {
         <div className='bubble-btn-group three'>
           {availableOutcomes.map((outcome) => {
             const isActive = selectedOutcome?.title === outcome.title;
-            const isDisabled = !!selectedOutcome && !isActive;
 
             return (
               <BubbleBtn
@@ -65,7 +64,6 @@ function Outcomes() {
                 label={outcome.title}
                 size='large'
                 isActive={isActive}
-                disabled={isDisabled}
                 onClick={() => handleSelect(outcome)}
               />
             );

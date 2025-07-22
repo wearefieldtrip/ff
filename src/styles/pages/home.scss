@@ -61,6 +61,11 @@
           cursor: pointer;
           margin: 0;
 
+          option {
+            background-color: #001f3f; // or any dark color matching your theme
+            color: $color-white;
+          }
+
           @include breakpoint(tablet) {
             width: fit-content;
           }

@@ -1,14 +1,29 @@
 .page-header {
   border-bottom: 2px solid $color-white;
   text-align: center;
-  padding: 24px;
+  padding: 24px 72px;
   margin-bottom: 44px;
   display: flex;
   flex-direction: column;
   gap: 8px;
+  position: relative;
 
   @include breakpoint(tablet) {
     padding: 30px;
+  }
+
+  .ff-logo-internal {
+    width: 50px;
+    position: absolute;
+    left: 12px;
+    top: 12px;
+
+    @include breakpoint(desktop) {
+      width: 80px;
+      top: 50%;
+      left: 30px;
+      transform: translateY(-50%);
+    }
   }
 
   h1,
