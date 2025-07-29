@@ -1,7 +1,7 @@
 .page-header {
   border-bottom: 2px solid $color-white;
   text-align: center;
-  padding: 24px 72px;
+  padding: 12px 72px 24px;
   margin-bottom: 44px;
   display: flex;
   flex-direction: column;
@@ -13,13 +13,12 @@
   }
 
   .ff-logo-internal {
-    width: 50px;
-    position: absolute;
-    left: 12px;
-    top: 12px;
+    width: 40px;
+    margin: auto;
 
     @include breakpoint(desktop) {
       width: 80px;
+      position: absolute;
       top: 50%;
       left: 30px;
       transform: translateY(-50%);
